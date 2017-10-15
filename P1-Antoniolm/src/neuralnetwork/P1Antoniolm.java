@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package p1.antoniolm;
+package neuralnetwork;
 
 /**
  *
+ * @author Antoniolm
  */
 public class P1Antoniolm {
 
