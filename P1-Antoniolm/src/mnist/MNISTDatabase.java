@@ -253,7 +253,7 @@ public class MNISTDatabase
 
 		int images[][][];
 		//images = readImages("data/mnist/"+trainingImages);
-		images = readImages("data/"+testImages);
+		images = readImages("data/mnist/"+testImages);
 		
 		System.out.println("Raw image data:");
 		System.out.println(toString(images[0]));
@@ -266,7 +266,7 @@ public class MNISTDatabase
 		
 		int labels[];
 		// labels = readLabels("data/mnist/"+trainingLabels);
-		labels = readLabels("data/"+testLabels);
+		labels = readLabels("data/mnist/"+testLabels);
 		
 		System.out.println("Image label:");
 		System.out.println(labels[0]);

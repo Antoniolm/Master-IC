@@ -25,6 +25,11 @@ package neuralnetwork;
 public class Neuron {
     float image[][];
     
+    public Neuron(){
+        
+        
+    }
+    
     public double processImage(float testImage[][]){
         return 0.0d;
     }
