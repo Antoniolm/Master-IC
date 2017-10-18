@@ -19,6 +19,14 @@
 
 package neuralnetwork;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import mnist.MNISTDatabase;
+import static mnist.MNISTDatabase.normalize;
+import static mnist.MNISTDatabase.readImages;
+import static mnist.MNISTDatabase.readLabels;
+import static mnist.MNISTDatabase.toString;
+
 /**
  *
  * @author Antoniolm
@@ -28,8 +36,56 @@ public class P1Antoniolm {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
+        
+        NeuralNetwork neuralNet=new NeuralNetwork();
+        MNISTDatabase dataBase=new MNISTDatabase();
+        
+        int trainingImages[][][];
+        int testImages[][][];
+        
+        int trainingLabels[];
+        int testLabels[];
+        //images = readImages("data/mnist/"+trainingImages);
+        
+        /////////////
+        //TRAINING
+        /////////////
+        trainingImages = dataBase.readImages("data/mnist/train-images-idx3-ubyte.gz");
+
+        //float normalizedImages[][][];
+        //ArrayList<ArrayList<ArrayList<ArrayList<Float>>>> normalizedImages;
+        //loop
+        for(int i=0;i<10;i++){
+            // Normalize image data
+            float data[][] = dataBase.normalize(trainingImages[i]);
+            //neuralNet.analyze(data);
+            
+            //////////////////
+            //check result
+            trainingLabels = readLabels("data/mnist/train-labels-idx1-ubyte.gz");
+        }
+        
+        
+        
+        /////////////
+        //TESTING
+        /////////////
+
+        testImages = dataBase.readImages("data/mnist/t10k-images-idx3-ubyte.gz");
+        
+        //loop
+        for(int i=0;i<10;i++){
+            // Normalize image data
+            float data[][] = dataBase.normalize(trainingImages[i]);
+            //neuralNet.analyze(data);
+            
+            ////////////////
+            //check result
+            testLabels = readLabels("data/mnist/t10k-labels-idx1-ubyte.gz");
+            
+        }
     }
     
 }
