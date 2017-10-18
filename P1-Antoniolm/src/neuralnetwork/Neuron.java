@@ -27,7 +27,6 @@ public class Neuron {
     
     public Neuron(){
         
-        
     }
     
     public double processImage(float testImage[][]){

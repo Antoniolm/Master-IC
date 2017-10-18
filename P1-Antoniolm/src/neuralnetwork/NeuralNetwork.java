@@ -19,17 +19,36 @@
 
 package neuralnetwork;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Antoniolm
  */
 public class NeuralNetwork {
     int internResult;
+    ArrayList<Neuron> neurons;
     
+    public NeuralNetwork(){
+       neurons=new ArrayList<Neuron>(); 
+    }
     
     public void analyze(float data[][]){
+        ArrayList<Double> results=new ArrayList<Double>();
+            
+        for(int i=0;i<10;i++){
+            results.add(neurons.get(i).processImage(data)); 
+        }    
+         
+        double maxValue=-1;
+        internResult=-1;
         
-        internResult=0;
+        for(int i=0;i<results.size();i++){
+            if(maxValue<results.get(i)){
+                maxValue=results.get(i);
+                internResult=i;
+            }
+        }
     }
     
     public boolean check(int value){
