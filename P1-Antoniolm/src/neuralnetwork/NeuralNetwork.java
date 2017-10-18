@@ -24,5 +24,24 @@ package neuralnetwork;
  * @author Antoniolm
  */
 public class NeuralNetwork {
+    int internResult;
+    
+    
+    public void analyze(float data[][]){
+        
+        internResult=0;
+    }
+    
+    public boolean check(int value){
+        boolean result=false;
+        
+        if(value==internResult)
+            result=true;
+       
+        return result;
+    }
+    
+    
+    
     
 }

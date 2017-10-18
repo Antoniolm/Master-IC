@@ -47,7 +47,6 @@ public class P1Antoniolm {
         
         int trainingLabels[];
         int testLabels[];
-        //images = readImages("data/mnist/"+trainingImages);
         
         /////////////
         //TRAINING
@@ -59,11 +58,11 @@ public class P1Antoniolm {
         for(int i=0;i<trainingImages.length;i++){
             // Normalize image data
             float data[][] = dataBase.normalize(trainingImages[i]);
-            //neuralNet.analyze(data);
+           neuralNet.analyze(data);
             
             //////////////////
             //check result
-            //nerualNet.check(testLabels[i]);
+            boolean result=neuralNet.check(trainingLabels[i]);
             
         }
         
@@ -78,11 +77,11 @@ public class P1Antoniolm {
         for(int i=0;i<testImages.length;i++){
             // Normalize image data
             float data[][] = dataBase.normalize(trainingImages[i]);
-            //neuralNet.analyze(data);
+            neuralNet.analyze(data);
             
             ////////////////
             //check result
-            //nerualNet.check(testLabels[i]);
+            boolean result=neuralNet.check(testLabels[i]);
         }
     }
     
