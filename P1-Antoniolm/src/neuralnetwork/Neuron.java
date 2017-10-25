@@ -18,15 +18,37 @@
 // *********************************************************************
 package neuralnetwork;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author antoniolm
  */
 public class Neuron {
     float image[][];
+    double bias;
+    ArrayList<Double> weights;
+    
     
     public Neuron(){
         
+    }
+    
+    public double net(ArrayList<Double> values){
+        double result=bias;
+        for( int i=0;i<weights.size();i++)
+            result+=weights.get(i)*values.get(i);
+        
+        return result;
+    }
+    
+    public double output(ArrayList<Double> values){
+        Double result = net(values);
+        return activation(result);
+    }
+    
+    public double activation(Double value){
+        return value;
     }
     
     public double processImage(float testImage[][]){
