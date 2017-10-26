@@ -37,7 +37,7 @@ public class Layer {
         activation=new SigmoidActivation();
     }
     
-    public double forward(ArrayList<Double> values){
+    public ArrayList<Double> forward(ArrayList<Double> values){
         Double result;
         ArrayList<Double> resultArr=new ArrayList<Double>();
         
@@ -48,7 +48,7 @@ public class Layer {
             }
             resultArr.add(activation.evaluate(result));
         }
-        return 0.0d;
+        return resultArr;
     }
            
 }
