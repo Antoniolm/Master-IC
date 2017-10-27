@@ -13,9 +13,15 @@ import java.util.ArrayList;
  */
 public class FeedForwardNetwork {
     ArrayList<Layer> layers;
+    double [][] delta;
+    
+    Activation activation;
     
     public FeedForwardNetwork(){
         layers=new ArrayList<Layer>();
+        delta=new double[layers.size()][20];
+        
+        activation=new SigmoidActivation();
         //add layers
     }
     
@@ -43,5 +49,48 @@ public class FeedForwardNetwork {
     
     public double MSE(double [][][]data, int [] target){
         return SSE(data,target)/data.length;
+    }
+    
+    public double [] error(int [] target, double [] output){
+        double [] result= new double[output.length];
+        
+        for( int i=0;i<output.length;i++)
+            result[i]=(target[i]-output[i]);
+        
+        return result;
+    }
+    
+    public void backward(double [] error){
+        int sizeLayer= layers.size();
+        
+        for(int j=0;j<error.length;j++){
+            //delta[sizeLayer][j]=error[j]* activation.diff(layers[sizeLayer])
+        }
+        
+        for(int k=sizeLayer-1;k>0;k--){
+            for(int j=0;j<layers.get(k).getOutput().length;j++){
+                //error[k][j] = dot(layer[k+1].w[j], delta[k+1][j]);
+                //delta[k][j] = error[k][j] * activation.diff(layer[k].z[j]);
+            }
+        }      
+    }
+    
+    public void update(double eta){
+        
+        /*for(int k=0;k<layers.size();k++){
+            for(int j=0;j<layers.get(k).getOutput().length;j++){
+                //layers.get(k).b[j] += eta * delta[k][j];
+                for(int i=0;i<layers.get(k).getInput().length;i++)
+                    //layers.get(k).w[j][i] += eta * layers[k].input[i] * delta[k][j];
+            //}
+        //}*/
+    }
+    
+    public double dot(double [] x, double [] y){
+        double dot=0;
+        for(int i=0;i<x.length;i++)
+            dot+=x[i]*y[i];
+        
+        return dot;
     }
 }

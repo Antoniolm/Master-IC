@@ -28,28 +28,39 @@ public class Layer {
     double [][] matrixWeight;
     ArrayList<Double> vectorBias;
     int entradas,salidas;
+    double [] output;
+    double [] input;
     
     Activation activation;
     
     public Layer(int n,int m){
         entradas=n;
         salidas=m;
+        output=new double[salidas];
         activation=new SigmoidActivation();
     }
     
     public double [] forward(double [] values){
-        double result;
-        double [] resultArr=new double[salidas];
+        double result;   
         
+        input=values;
         
         for(int j=0;j<salidas;j++){
             result=vectorBias.get(j);
             for(int i=0;i<entradas;i++){
                 result+=matrixWeight[j][i]*values[i];
             }
-            resultArr[j]=activation.evaluate(result);
+            output[j]=activation.evaluate(result);
         }
-        return resultArr;
+        return output;
+    }
+    
+    public double [] getOutput(){
+        return output;
+    }
+    
+    public double [] getInput(){
+        return input;
     }
            
 }
