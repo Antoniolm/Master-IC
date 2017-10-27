@@ -38,7 +38,10 @@ public class FeedForwardNetwork {
                 error+=Math.pow(target[k]-output[i],2);
             }
         }
-        
-        return 0.0d;
+        return error;
+    }
+    
+    public double MSE(double [][][]data, int [] target){
+        return SSE(data,target)/data.length;
     }
 }
