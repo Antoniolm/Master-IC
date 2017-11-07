@@ -31,6 +31,8 @@ public class NeuralNetwork {
     
     public NeuralNetwork(){
        neurons=new ArrayList<Neuron>(); 
+       for(int i=0;i<10;i++)
+           neurons.add(new Neuron());
     }
     
     public void analyze(float data[][]){
@@ -44,6 +46,8 @@ public class NeuralNetwork {
         internResult=-1;
         
         for(int i=0;i<results.size();i++){
+            //System.out.println("Result["+i+"]="+results.get(i));
+                    
             if(maxValue<results.get(i)){
                 maxValue=results.get(i);
                 internResult=i;
@@ -60,7 +64,23 @@ public class NeuralNetwork {
         return result;
     }
     
+    public void update(float data[][],int value){
+        
+        for(int i=0;i<neurons.size();i++){
+            if(i==value)
+                neurons.get(i).adjustWeights(true, data);           
+            else 
+                neurons.get(i).adjustWeights(false, data);           
+        }
+    }
     
+    public void print(){
+        for(int i=0;i<neurons.size();i++){
+            System.out.println("Neuron - "+i);
+            neurons.get(i).print();
+        }
+        
+    }
     
     
 }
