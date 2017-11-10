@@ -24,43 +24,19 @@ import java.util.ArrayList;
  *
  * @author LENOVO
  */
-public class Layer {
-    double [][] matrixWeight;
-    ArrayList<Double> vectorBias;
+public abstract class Layer {
+    double [][] weights;
+    double [] bias;
     int entradas,salidas;
     double [] output;
     double [] input;
+    double [] delta;
     
     Activation activation;
-    
-    public Layer(int n,int m){
-        entradas=n;
-        salidas=m;
-        output=new double[salidas];
-        activation=new SigmoidActivation();
-    }
-    
-    public double [] forward(double [] values){
-        double result;   
         
-        input=values;
-        
-        for(int j=0;j<salidas;j++){
-            result=vectorBias.get(j);
-            for(int i=0;i<entradas;i++){
-                result+=matrixWeight[j][i]*values[i];
-            }
-            output[j]=activation.evaluate(result);
-        }
-        return output;
-    }
+    public abstract double [] forward(double [] values);
+    public abstract void backward(double [] error);
+    public abstract void update(double eta);
     
-    public double [] getOutput(){
-        return output;
-    }
-    
-    public double [] getInput(){
-        return input;
-    }
            
 }

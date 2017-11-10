@@ -12,17 +12,21 @@ import java.util.ArrayList;
  * @author LENOVO
  */
 public class FeedForwardNetwork {
-    ArrayList<Layer> layers;
+    ArrayList<FullyConnectedLayer> layers;
     double [][] delta;
+    double eta;
     
     Activation activation;
     
-    public FeedForwardNetwork(){
-        layers=new ArrayList<Layer>();
+    public FeedForwardNetwork(int n,int m){
+        layers=new ArrayList<FullyConnectedLayer>();
         delta=new double[layers.size()][20];
         
         activation=new SigmoidActivation();
         //add layers
+        layers.add(new FullyConnectedLayer(n,m));
+        layers.add(new FullyConnectedLayer(n,m));
+        
     }
     
     public double [] forward(double [] x){
@@ -33,6 +37,20 @@ public class FeedForwardNetwork {
         return result;
     }
     
+     public void backward(double [] error){
+        
+        for(int j=0;j<layers.size();j++){
+            layers.get(j).backward(error);
+            error=layers.get(j).getDeltaX();
+        }
+    }
+    
+     public void update(){
+         for(int j=0;j<layers.size();j++){
+            layers.get(j).update(eta);
+        }
+         
+     }
     public double SSE (double [][][]data, int [] target){
         double error=0;
         int count=0;
@@ -58,32 +76,6 @@ public class FeedForwardNetwork {
             result[i]=(target[i]-output[i]);
         
         return result;
-    }
-    
-    public void backward(double [] error){
-        int sizeLayer= layers.size();
-        
-        for(int j=0;j<error.length;j++){
-            //delta[sizeLayer][j]=error[j]* activation.diff(layers[sizeLayer])
-        }
-        
-        for(int k=sizeLayer-1;k>0;k--){
-            for(int j=0;j<layers.get(k).getOutput().length;j++){
-                //error[k][j] = dot(layer[k+1].w[j], delta[k+1][j]);
-                //delta[k][j] = error[k][j] * activation.diff(layer[k].z[j]);
-            }
-        }      
-    }
-    
-    public void update(double eta){
-        
-        /*for(int k=0;k<layers.size();k++){
-            for(int j=0;j<layers.get(k).getOutput().length;j++){
-                //layers.get(k).b[j] += eta * delta[k][j];
-                for(int i=0;i<layers.get(k).getInput().length;i++)
-                    //layers.get(k).w[j][i] += eta * layers[k].input[i] * delta[k][j];
-            //}
-        //}*/
     }
     
     public double dot(double [] x, double [] y){

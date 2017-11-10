@@ -19,6 +19,7 @@ public class Neuron {
     
     public Neuron(){
         activated=false;
+        bias=0.5;
         weights=new float[28][28];
         
         Random aleatorio = new Random(System.currentTimeMillis());
@@ -38,7 +39,7 @@ public class Neuron {
                 value+=weights[i][j]*testImage[i][j];
             }
         }
-        if(value > 2)
+        if(value > bias)
             activated=true;
         return value;
     }
@@ -47,15 +48,19 @@ public class Neuron {
         for(int i=0;i<weights.length;i++){
             for(int j=0;j<weights[i].length;j++){
                 if(activated && !success)
-                    weights[i][j]-=testImage[i][j]*0.3;
+                    weights[i][j]-=testImage[i][j];
                 
                 if(!activated && success)
-                    weights[i][j]+=testImage[i][j]*0.3;
+                    weights[i][j]+=testImage[i][j];
                 
                 if(weights[i][j]<0.0) weights[i][j]=0;
                 if(weights[i][j]>1.0) weights[i][j]=1;
             }
         }
+    }
+    
+    public boolean getActivated(){
+        return activated;
     }
     
     public void print(){

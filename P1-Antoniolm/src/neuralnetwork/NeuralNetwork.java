@@ -37,22 +37,25 @@ public class NeuralNetwork {
     
     public void analyze(float data[][]){
         ArrayList<Double> results=new ArrayList<Double>();
-            
+        
+        internResult=-1;
         for(int i=0;i<neurons.size();i++){
             results.add(neurons.get(i).processImage(data)); 
+            if(neurons.get(i).getActivated())
+                internResult=i;
         }    
          
-        double maxValue=-1;
+        /*double maxValue=-1;
         internResult=-1;
         
-        for(int i=0;i<results.size();i++){
+        for(int i=0;i<neurons.size();i++){
             //System.out.println("Result["+i+"]="+results.get(i));
-                    
+            if(neurons)   
             if(maxValue<results.get(i)){
                 maxValue=results.get(i);
                 internResult=i;
             }
-        }
+        }*/
     }
     
     public boolean check(int value){
