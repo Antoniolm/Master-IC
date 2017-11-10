@@ -72,13 +72,6 @@ public class FullyConnectedLayer extends Layer{
         }
     }
     
-    public void train(float [][]data,int label,double eta){
-        forward(data[][]);
-        double [] error=error(label,output);
-        backward(error);
-        update(eta);
-    }
-    
     public double [] getDeltaX(){
         return deltaX;
     }

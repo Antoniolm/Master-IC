@@ -5,6 +5,7 @@
  */
 package neuralnetwork;
 
+import static java.lang.Math.log;
 import neuralnetwork.activation.SigmoidActivation;
 import neuralnetwork.activation.Activation;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author LENOVO
  */
-public class FeedForwardNetwork {
+public class FeedForwardNetwork extends Layer{
     ArrayList<FullyConnectedLayer> layers;
     double [][] delta;
     double eta;
@@ -47,7 +48,7 @@ public class FeedForwardNetwork {
         }
     }
     
-     public void update(){
+     public void update(double eta) {
          for(int j=0;j<layers.size();j++){
             layers.get(j).update(eta);
         }
@@ -56,11 +57,12 @@ public class FeedForwardNetwork {
      
      
     public void train(float [][]data,int label,double eta){
-        forward(data[][]);
-        double [] error=error(label,output);
+        forward(data[][]); //process image 
+        double [] error=crossEntropy(label,output);
         backward(error);
         update(eta);
     } 
+    
     public double SSE (double [][][]data, int [] target){
         double error=0;
         int count=0;
@@ -86,6 +88,14 @@ public class FeedForwardNetwork {
             result[i]=(target[i]-output[i]);
         
         return result;
+    }
+    
+    public double [] crossEntropy(int target,double [] output){
+        double [] error=new double[output.length];
+        for(int i=0;i<output.length;i++)
+            error[i]=-target * log(output[i]) - (1.0-target)*log(1.0-output[i]);
+        
+        return error;
     }
     
     public double dot(double [] x, double [] y){
