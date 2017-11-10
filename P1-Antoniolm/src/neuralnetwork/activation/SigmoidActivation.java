@@ -17,13 +17,26 @@
 // **
 // *********************************************************************
 
-package neuralnetwork;
+package neuralnetwork.activation;
+
+import neuralnetwork.activation.Activation;
+import static java.lang.Math.exp;
 
 /**
  *
  * @author LENOVO
  */
-public interface Activation {
-    public double evaluate(double value);
-    public double diff(double value);
+public class SigmoidActivation implements Activation{
+
+    @Override
+    public double evaluate(double value) {
+        return 1.0/(1.0+Math.exp(value));
+    }
+
+    @Override
+    public double diff(double value) {
+        double result=evaluate(value);
+        return result*(1-result);
+    }
+    
 }

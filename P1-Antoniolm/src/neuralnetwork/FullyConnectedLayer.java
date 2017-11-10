@@ -5,6 +5,8 @@
  */
 package neuralnetwork;
 
+import neuralnetwork.activation.SigmoidActivation;
+
 /**
  *
  * @author LENOVO

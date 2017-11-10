@@ -17,24 +17,24 @@
 // **
 // *********************************************************************
 
-package neuralnetwork;
+package neuralnetwork.activation;
+
+import neuralnetwork.activation.Activation;
 
 /**
  *
  * @author LENOVO
  */
-public class tanhActivation implements Activation{
+public class ReluActivation implements Activation{
 
     @Override
     public double evaluate(double value) {
-        double e2z= Math.exp(2*value);
-        return (e2z-1)/(e2z+1);
+        return (value >= 0) ? value : 0;
     }
 
     @Override
     public double diff(double value) {
-        double result=evaluate(value);
-        return 1-result*result;
+        return (value >= 0 ) ? 1 : 0;
     }
     
 }

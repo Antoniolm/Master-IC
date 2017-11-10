@@ -5,6 +5,8 @@
  */
 package neuralnetwork;
 
+import neuralnetwork.activation.SigmoidActivation;
+import neuralnetwork.activation.Activation;
 import java.util.ArrayList;
 
 /**

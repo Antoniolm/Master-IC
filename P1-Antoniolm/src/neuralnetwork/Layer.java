@@ -18,6 +18,7 @@
 // *********************************************************************
 package neuralnetwork;
 
+import neuralnetwork.activation.Activation;
 import java.util.ArrayList;
 
 /**
