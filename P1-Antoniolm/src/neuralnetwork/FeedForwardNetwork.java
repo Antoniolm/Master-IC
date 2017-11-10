@@ -53,6 +53,14 @@ public class FeedForwardNetwork {
         }
          
      }
+     
+     
+    public void train(float [][]data,int label,double eta){
+        forward(data[][]);
+        double [] error=error(label,output);
+        backward(error);
+        update(eta);
+    } 
     public double SSE (double [][][]data, int [] target){
         double error=0;
         int count=0;
