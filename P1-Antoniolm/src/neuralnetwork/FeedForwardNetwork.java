@@ -27,17 +27,23 @@ public class FeedForwardNetwork extends Layer{
         
         activation=new SigmoidActivation();
         //add layers
-        layers.add(new FullyConnectedLayer(n,m));
-        layers.add(new FullyConnectedLayer(n,m));
+        layers.add(new FullyConnectedLayer(10,10));
+        layers.add(new FullyConnectedLayer(28*28,10));
         
     }
     
+    @Override
+    public void init(){
+        for(int i=0;i<layers.size();i++)
+            layers.get(i).init();
+    }
+    
     public double [] forward(double [] x){
-        double [] result=x;
+        output=x;
         for(int i=0;i<layers.size();i++){
-            result=layers.get(i).forward(result);
+            output=layers.get(i).forward(output);
         }
-        return result;
+        return output;
     }
     
      public void backward(double [] error){
@@ -45,6 +51,7 @@ public class FeedForwardNetwork extends Layer{
         for(int j=0;j<layers.size();j++){
             layers.get(j).backward(error);
             error=layers.get(j).getDeltaX();
+            //guardar deltas en delta[][];
         }
     }
     
@@ -57,43 +64,34 @@ public class FeedForwardNetwork extends Layer{
      
      
     public void train(float [][]data,int label,double eta){
-        forward(data[][]); //process image 
+        forward(convertImage(data)); //process image 
         double [] error=crossEntropy(label,output);
         backward(error);
         update(eta);
     } 
     
-    public double SSE (double [][][]data, int [] target){
-        double error=0;
-        int count=0;
-        double [] output=new double[data.length];
-        
-        for(int k=0;k<data.length;k++){
-            //output=forward(data[k]);
-            for(int i=0;i<output.length;i++){
-                error+=Math.pow(target[k]-output[i],2);
-            }
-        }
-        return error;
-    }
     
-    public double MSE(double [][][]data, int [] target){
-        return SSE(data,target)/data.length;
-    }
+   public double [] convertImage(float [][]data ){
+       double [] result=new double[data.length*data[0].length];
+      
+       for(int i=0;i<data.length;i++){
+           for(int j=0;j<data[i].length;j++)
+               result[i*data.length +j]=data[i][j];
+       }
+       return result;
+   }
     
-    public double [] error(int [] target, double [] output){
-        double [] result= new double[output.length];
-        
-        for( int i=0;i<output.length;i++)
-            result[i]=(target[i]-output[i]);
-        
-        return result;
-    }
-    
-    public double [] crossEntropy(int target,double [] output){
+    //todos a 0 excpeto el que sea verdadero a 1 
+    public double [] crossEntropy(int valueC,double [] output){
         double [] error=new double[output.length];
+        
+        int [] target=new int[10];
+        for(int i=0;i<target.length;i++)
+            if(valueC==i) target[i]=1;
+            else target[i]=0;
+        
         for(int i=0;i<output.length;i++)
-            error[i]=-target * log(output[i]) - (1.0-target)*log(1.0-output[i]);
+            error[i]=-target[i] * log(output[i]) - (1.0-target[i])*log(1.0-output[i]);
         
         return error;
     }

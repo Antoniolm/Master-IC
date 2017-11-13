@@ -39,7 +39,7 @@ public class P1Antoniolm {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
         
-        NeuralNetwork neuralNet=new NeuralNetwork();
+        FeedForwardNetwork neuralNet=new FeedForwardNetwork(0,0);
         MNISTDatabase dataBase=new MNISTDatabase();
         
         int trainingImages[][][];
@@ -61,18 +61,20 @@ public class P1Antoniolm {
         for(int i=0;i<trainingImages.length;i++){
             // Normalize image data
             float data[][] = dataBase.normalize(trainingImages[i]);
-            neuralNet.analyze(data);
+            
+            neuralNet.train(data, trainingLabels[i], 0.06);
+            
+            /*neuralNet.analyze(data);
             
             //////////////////
             //check result
             if(!neuralNet.check(trainingLabels[i]))
                 errors++;
             
-            neuralNet.update(data,trainingLabels[i]);
+            neuralNet.update(data,trainingLabels[i]);*/
             
         }
-        neuralNet.print();
-        
+                
         System.out.println("Errors of training -> "+errors+ "/"+trainingImages.length);
                 
         /////////////

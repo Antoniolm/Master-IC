@@ -35,6 +35,7 @@ public abstract class Layer {
     
     Activation activation;
         
+    public abstract void init();
     public abstract double [] forward(double [] values);
     public abstract void backward(double [] error);
     public abstract void update(double eta);
