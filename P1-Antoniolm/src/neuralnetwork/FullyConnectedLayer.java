@@ -1,8 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// *********************************************************************
+// **
+// ** Copyright (C) 2017-2018 Antonio David López Machado
+// **
+// ** This program is free software: you can redistribute it and/or modify
+// ** it under the terms of the GNU General Public License as published by
+// ** the Free Software Foundation, either version 3 of the License, or
+// ** (at your option) any later version.
+// **
+// ** This program is distributed in the hope that it will be useful,
+// ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+// ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// ** GNU General Public License for more details.
+// **
+// ** You should have received a copy of the GNU General Public License
+// ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// **
+// *********************************************************************
+
 package neuralnetwork;
 
 import java.util.Random;
@@ -10,25 +24,24 @@ import neuralnetwork.activation.SigmoidActivation;
 
 /**
  *
- * @author LENOVO
+ * @author Antoniolm
  */
 public class FullyConnectedLayer extends Layer{
-    
-    double [] deltaB;
-    double [] deltaX;
-    double [][] deltaW;
-    
+        
     public FullyConnectedLayer(int n,int m){
         entradas=n;
         salidas=m;
+        output=new double[salidas];
+        input=new double[entradas];
         bias=new double[salidas];
-        weights=new double[28][28];
+        weights=new double[salidas][entradas];
         activation=new SigmoidActivation();
         
         /*FIX SIZE */
-        deltaB=new double[10];
-        deltaX=new double[10];
-        deltaW=new double[10][10];
+        deltaB=new double[salidas];
+        deltaX=new double[entradas];
+        deltaW=new double[salidas][entradas];
+        //delta ??????
         
     }
     
@@ -41,6 +54,13 @@ public class FullyConnectedLayer extends Layer{
                 weights[i][j] = 2* (aleatorio.nextFloat() - 0.5);
                 deltaW[i][j] = 2* (aleatorio.nextFloat() - 0.5);
             }
+        
+        //Init deltas
+        for(int i=0;i<entradas;i++)
+            deltaX[i]=0.0;
+            
+        for(int i=0;i<salidas;i++)
+            deltaB[i]=0.0;
         
         
     }
@@ -64,17 +84,16 @@ public class FullyConnectedLayer extends Layer{
     @Override
     public void backward(double[] error) {
         
-        for(int j=0;j<10;j++){
+        for(int j=0;j<salidas;j++){
             delta[j]=error[j]*activation.diff(output[j]);
             
             deltaB[j]=delta[j];
             
-            for(int i=0;i<10;i++)
+            for(int i=0;i<entradas;i++)
                 deltaW[j][i]=delta[j]*input[i];
             
-            for(int i=0;i<10;i++)
+            for(int i=0;i<entradas;i++)
                 deltaX[i]=dot(delta[j],weights[j]);
-            
         }
         
     }

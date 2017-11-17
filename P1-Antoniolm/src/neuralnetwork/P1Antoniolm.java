@@ -55,6 +55,7 @@ public class P1Antoniolm {
         trainingLabels = readLabels("data/mnist/train-labels-idx1-ubyte.gz");
 
         int errors=0;
+        double [] result=new double[10];
         System.out.println("-- Training --");
         
         //loop
@@ -63,15 +64,7 @@ public class P1Antoniolm {
             float data[][] = dataBase.normalize(trainingImages[i]);
             
             neuralNet.train(data, trainingLabels[i], 0.06);
-            
-            /*neuralNet.analyze(data);
-            
-            //////////////////
-            //check result
-            if(!neuralNet.check(trainingLabels[i]))
-                errors++;
-            
-            neuralNet.update(data,trainingLabels[i]);*/
+
             
         }
                 
@@ -81,19 +74,17 @@ public class P1Antoniolm {
         //TESTING
         /////////////
 
-        /*testImages = dataBase.readImages("data/mnist/t10k-images-idx3-ubyte.gz");
+        testImages = dataBase.readImages("data/mnist/t10k-images-idx3-ubyte.gz");
         testLabels = readLabels("data/mnist/t10k-labels-idx1-ubyte.gz");
+        result=new double[10];
         
         //loop
         for(int i=0;i<testImages.length;i++){
             // Normalize image data
             float data[][] = dataBase.normalize(trainingImages[i]);
-            neuralNet.analyze(data);
             
-            ////////////////
-            //check result
-            boolean result=neuralNet.check(testLabels[i]);
-        }*/
+            result=neuralNet.forward(neuralNet.convertImage(data));
+        }
     }
     
 }

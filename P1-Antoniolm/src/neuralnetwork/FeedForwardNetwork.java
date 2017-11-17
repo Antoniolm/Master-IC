@@ -1,8 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// *********************************************************************
+// **
+// ** Copyright (C) 2017-2018 Antonio David López Machado
+// **
+// ** This program is free software: you can redistribute it and/or modify
+// ** it under the terms of the GNU General Public License as published by
+// ** the Free Software Foundation, either version 3 of the License, or
+// ** (at your option) any later version.
+// **
+// ** This program is distributed in the hope that it will be useful,
+// ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+// ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// ** GNU General Public License for more details.
+// **
+// ** You should have received a copy of the GNU General Public License
+// ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// **
+// *********************************************************************
+
 package neuralnetwork;
 
 import static java.lang.Math.log;
@@ -16,20 +30,19 @@ import java.util.ArrayList;
  */
 public class FeedForwardNetwork extends Layer{
     ArrayList<FullyConnectedLayer> layers;
-    double [][] delta;
+    double [][] deltaMatrix;
     double eta;
     
     Activation activation;
     
     public FeedForwardNetwork(int n,int m){
         layers=new ArrayList<FullyConnectedLayer>();
-        delta=new double[layers.size()][20];
-        
+        deltaMatrix=new double[layers.size()][20];
+        eta=0.06d;
         activation=new SigmoidActivation();
         //add layers
-        layers.add(new FullyConnectedLayer(10,10));
         layers.add(new FullyConnectedLayer(28*28,10));
-        
+        layers.add(new FullyConnectedLayer(10,10));
     }
     
     @Override
@@ -48,7 +61,7 @@ public class FeedForwardNetwork extends Layer{
     
      public void backward(double [] error){
         
-        for(int j=0;j<layers.size();j++){
+        for(int j=layers.size();j>=0;j--){
             layers.get(j).backward(error);
             error=layers.get(j).getDeltaX();
             //guardar deltas en delta[][];

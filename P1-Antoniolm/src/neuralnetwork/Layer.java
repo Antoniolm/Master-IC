@@ -32,6 +32,9 @@ public abstract class Layer {
     double [] output;
     double [] input;
     double [] delta;
+    double [] deltaB;
+    double [] deltaX;
+    double [][] deltaW;
     
     Activation activation;
         
