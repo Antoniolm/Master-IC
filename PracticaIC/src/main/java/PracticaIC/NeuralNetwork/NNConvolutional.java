@@ -38,9 +38,4 @@ public class NNConvolutional extends NeuralNetwork {
     public NNConvolutional(int rngSeed,int numRows, int numColumns,int outputNum){
 
     }
-
-    public void eval() {
-
-    }
-
 }

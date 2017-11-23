@@ -29,18 +29,18 @@ public abstract class NeuralNetwork {
     protected MultiLayerNetwork network;
     Evaluation evaluation;
     int output;
-    int
+    int input;
 
     /**
      *
      * @param dataSetIt
      */
     public void train(DataSetIterator dataSetIt){
-        evaluation = new Evaluation(outputNum);
+        evaluation = new Evaluation(output);
         while(dataSetIt.hasNext()) {
             DataSet next = dataSetIt.next();
-            INDArray output = network.output(next.getFeatureMatrix()); //get the networks prediction
-            evaluation.eval(next.getLabels(), output); //check the prediction against the true class
+            INDArray output = network.output(next.getFeatureMatrix());
+            evaluation.eval(next.getLabels(), output);
             network.fit(next);
         }
     }
@@ -58,7 +58,14 @@ public abstract class NeuralNetwork {
     /**
      *
      */
-    public abstract void eval();
+    public void evaluate(DataSetIterator dataSetIt){
+        evaluation = new Evaluation(output);
+        while(dataSetIt.hasNext()) {
+            DataSet next = dataSetIt.next();
+            INDArray output = network.output(next.getFeatureMatrix());
+            evaluation.eval(next.getLabels(), output);
+        }
+    }
 
     /**
      *

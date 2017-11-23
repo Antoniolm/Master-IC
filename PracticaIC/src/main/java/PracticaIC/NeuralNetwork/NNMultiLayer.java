@@ -36,37 +36,34 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 public class NNMultiLayer extends NeuralNetwork {
     public NNMultiLayer(int rngSeed,int numRows, int numColumns,int outputNum){
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-            .seed(rngSeed) //include a random seed for reproducibility
-            .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT) // use stochastic gradient descent as an optimization algorithm
+            .seed(rngSeed)
+            .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
             .iterations(1)
             .activation(Activation.RELU)
             .weightInit(WeightInit.XAVIER)
-            .learningRate(0.06) //specify the learning rate
+            .learningRate(0.06)
             .updater(new Nesterovs(0.98))
-            .regularization(true).l2(0.06 * 0.005) // regularize learning model
+            .regularization(true).l2(0.06 * 0.005)
             .list()
-            .layer(0, new DenseLayer.Builder() //create the first input layer.
+            .layer(0, new DenseLayer.Builder()
                 .nIn(numRows * numColumns)
                 .nOut(500)
                 .build())
-            .layer(1, new DenseLayer.Builder() //create the second input layer
+            .layer(1, new DenseLayer.Builder()
                 .nIn(500)
                 .nOut(100)
                 .build())
-            .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD) //create hidden layer
+            .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
                 .activation(Activation.SOFTMAX)
                 .nIn(100)
                 .nOut(outputNum)
                 .build())
-            .pretrain(false).backprop(true) //use backpropagation to adjust weights
+            .pretrain(false).backprop(true)
             .build();
 
         MultiLayerNetwork model = new MultiLayerNetwork(conf);
         model.init();
-        model.setListeners(new ScoreIterationListener(5));  //print the score with every iteration
+        model.setListeners(new ScoreIterationListener(5));
     }
 
-    public void eval() {
-
-    }
 }

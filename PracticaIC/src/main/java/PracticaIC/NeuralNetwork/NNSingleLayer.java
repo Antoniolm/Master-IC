@@ -36,6 +36,9 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 public class NNSingleLayer extends NeuralNetwork {
 
     public NNSingleLayer(int rngSeed,int inputNum,int outputNum){
+        input=inputNum;
+        output=outputNum;
+
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
             .seed(rngSeed)
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
@@ -63,9 +66,5 @@ public class NNSingleLayer extends NeuralNetwork {
         network.init();
         //print the score with every 1 iteration
         network.setListeners(new ScoreIterationListener(1));
-    }
-
-    public void eval() {
-
     }
 }
