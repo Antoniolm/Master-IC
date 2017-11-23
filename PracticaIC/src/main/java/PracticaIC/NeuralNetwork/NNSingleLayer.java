@@ -19,6 +19,7 @@
 
 package PracticaIC.NeuralNetwork;
 
+import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -32,12 +33,9 @@ import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
-/**
- * Created by LENOVO on 08/11/2017.
- */
 public class NNSingleLayer extends NeuralNetwork {
 
-    public NNSingleLayer(int rngSeed,int numRows, int numColumns,int outputNum){
+    public NNSingleLayer(int rngSeed,int inputNum,int outputNum){
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
             .seed(rngSeed)
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
@@ -47,7 +45,7 @@ public class NNSingleLayer extends NeuralNetwork {
             .regularization(true).l2(1e-4)
             .list()
             .layer(0, new DenseLayer.Builder() //create the first, input layer with xavier initialization
-                .nIn(numRows * numColumns)
+                .nIn(inputNum)
                 .nOut(10)
                 .activation(Activation.SIGMOID)
                 .weightInit(WeightInit.RELU)
@@ -65,10 +63,6 @@ public class NNSingleLayer extends NeuralNetwork {
         network.init();
         //print the score with every 1 iteration
         network.setListeners(new ScoreIterationListener(1));
-    }
-
-    public void train(DataSetIterator dataSetIt) {
-
     }
 
     public void eval() {

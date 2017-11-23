@@ -41,9 +41,6 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by LENOVO on 08/11/2017.
- */
 public class main {
     private static Logger log = LoggerFactory.getLogger(main.class);
 
@@ -70,7 +67,7 @@ public class main {
         DataSetIterator mnistTest = new MnistDataSetIterator(batchSize, MnistDataFetcher.NUM_EXAMPLES_TEST,false,false,false,rngSeed);
 
         System.out.println("Building model....");
-        NeuralNetwork network=new NNSingleLayer(rngSeed,numRows,numColumns,outputNum);
+        NeuralNetwork network=new NNSingleLayer(rngSeed,numRows * numColumns,outputNum);
 
 
         log.info("Training");
@@ -80,12 +77,7 @@ public class main {
         }*/
 
         Evaluation eval = new Evaluation(outputNum); //create an evaluation object with 10 possible classes
-        while(mnistTrain.hasNext()) {
-            DataSet next = mnistTrain.next();
-            INDArray output = network.getNetwork().output(next.getFeatureMatrix()); //get the networks prediction
-            eval.eval(next.getLabels(), output); //check the prediction against the true class
-            network.getNetwork().fit(next);
-        }
+        network.train(mnistTrain);
         System.out.println(eval.stats());
 
         System.out.println("Evaluate model....");

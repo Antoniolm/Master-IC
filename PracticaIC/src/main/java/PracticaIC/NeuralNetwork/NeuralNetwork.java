@@ -21,26 +21,38 @@ package PracticaIC.NeuralNetwork;
 
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
-/**
- * Created by LENOVO on 08/11/2017.
- */
 public abstract class NeuralNetwork {
     protected MultiLayerNetwork network;
     Evaluation evaluation;
+    int output;
+    int
 
     /**
      *
      * @param dataSetIt
      */
-    public abstract void train(DataSetIterator dataSetIt);
+    public void train(DataSetIterator dataSetIt){
+        evaluation = new Evaluation(outputNum);
+        while(dataSetIt.hasNext()) {
+            DataSet next = dataSetIt.next();
+            INDArray output = network.output(next.getFeatureMatrix()); //get the networks prediction
+            evaluation.eval(next.getLabels(), output); //check the prediction against the true class
+            network.fit(next);
+        }
+    }
 
     /**
      *
      */
     public void showResults(){
-        System.out.println(evaluation.stats());
+        if(evaluation != null)
+            System.out.println(evaluation.stats());
+        else
+            System.out.println("You need train or evaluate the NN to have results");
     }
 
     /**

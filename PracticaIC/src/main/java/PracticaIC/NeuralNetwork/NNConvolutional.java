@@ -32,16 +32,10 @@ import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
-/**
- * Created by LENOVO on 19/11/2017.
- */
+
 public class NNConvolutional extends NeuralNetwork {
 
     public NNConvolutional(int rngSeed,int numRows, int numColumns,int outputNum){
-
-    }
-
-    public void train(DataSetIterator dataSetIt) {
 
     }
 

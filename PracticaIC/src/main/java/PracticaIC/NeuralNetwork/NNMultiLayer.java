@@ -33,9 +33,6 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.learning.config.Nesterovs;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
-/**
- * Created by LENOVO on 08/11/2017.
- */
 public class NNMultiLayer extends NeuralNetwork {
     public NNMultiLayer(int rngSeed,int numRows, int numColumns,int outputNum){
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
@@ -67,10 +64,6 @@ public class NNMultiLayer extends NeuralNetwork {
         MultiLayerNetwork model = new MultiLayerNetwork(conf);
         model.init();
         model.setListeners(new ScoreIterationListener(5));  //print the score with every iteration
-    }
-
-    public void train(DataSetIterator dataSetIt) {
-
     }
 
     public void eval() {
