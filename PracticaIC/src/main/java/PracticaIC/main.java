@@ -41,55 +41,78 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class main {
     private static Logger log = LoggerFactory.getLogger(main.class);
 
     public static void main(String[] args) throws Exception {
-        //number of rows and columns in the input pictures
-        final int numRows = 28;
-        final int numColumns = 28;
-        int outputNum = 10; // number of output classes
-        int batchSize = 128; // batch size for each epoch
-        int rngSeed = 123; // random number seed for reproducibility
-        int numEpochs = 15; // number of epochs to perform
+        final int input = 28*28;
+        int output = 10;
+        int blockImage = 128;
+        int seedNumber = 74;
+        double trainInitTime, trainTime;
+        double testInitTime, testTime;
 
         //Get the DataSetIterators:
-        //MnistDataFetcher https://github.com/deeplearning4j/deeplearning4j/blob/master/deeplearning4j-core/src/main/java/org/deeplearning4j/datasets/fetchers/MnistDataFetcher.java
-        //MnistFetcher.gunzipFile();
-        /*MnistDataFetcher prueba= new MnistDataFetcher(false,true,false,rngSeed);
-        prueba.reset();
-        MnistDataFetcher pruebaTest= new MnistDataFetcher(false,false,false,rngSeed);
-        pruebaTest.reset();*/
-        //DataSetIterator mnistTrain = new MnistDataSetIterator(batchSize, true, rngSeed);
-        //DataSetIterator mnistTest = new MnistDataSetIterator(batchSize, false, rngSeed);
-        DataSetIterator mnistTrain = new MnistDataSetIterator(batchSize, MnistDataFetcher.NUM_EXAMPLES,false,true,false,rngSeed);
-        //System.out.println("Examples"+mnistTrain.totalExamples());
-        DataSetIterator mnistTest = new MnistDataSetIterator(batchSize, MnistDataFetcher.NUM_EXAMPLES_TEST,false,false,false,rngSeed);
+        //DataSetIterator trainingDataSet = new MnistDataSetIterator(batchSize, true, rngSeed);
+        //DataSetIterator testDataSet = new MnistDataSetIterator(batchSize, false, rngSeed);
+        DataSetIterator trainingDataSet = new MnistDataSetIterator(blockImage, MnistDataFetcher.NUM_EXAMPLES,false,true,false,seedNumber);
+        //System.out.println("Examples"+trainingDataSet.totalExamples());
+        DataSetIterator testDataSet = new MnistDataSetIterator(blockImage, MnistDataFetcher.NUM_EXAMPLES_TEST,false,false,false,seedNumber);
 
         System.out.println("Building model....");
-        NeuralNetwork network=new NNSingleLayer(rngSeed,numRows * numColumns,outputNum);
+        NeuralNetwork network=new NNSingleLayer(seedNumber,input,output);
 
-
-        log.info("Training");
+        ////////////////////////////
+        // Training neurol network
+        ////////////////////////////
+        trainInitTime=System.nanoTime();
         System.out.println("Train model....");
-        /*for(int i=0;i<numEpochs;i++) {
-            network.getNetwork().fit(mnistTrain);
-        }*/
+        network.train(trainingDataSet);
+        network.showResults();
 
-        Evaluation eval = new Evaluation(outputNum); //create an evaluation object with 10 possible classes
-        network.train(mnistTrain);
-        System.out.println(eval.stats());
+        trainTime=(System.nanoTime()-trainInitTime)/1000000000.0;
+
+        ////////////////////////////
+        // Testing neuronal network
+        ////////////////////////////
+        testInitTime=System.nanoTime();
 
         System.out.println("Evaluate model....");
-        eval = new Evaluation(outputNum); //create an evaluation object with 10 possible classes
+        network.evaluate(testDataSet);
+        network.showResults();
 
-        while(mnistTest.hasNext()){
-            DataSet next = mnistTest.next();
-            INDArray output = network.getNetwork().output(next.getFeatureMatrix()); //get the networks prediction
-            eval.eval(next.getLabels(), output); //check the prediction against the true class
+        testTime=(System.nanoTime()-testInitTime)/1000000000.0;
+        //labelsString();
+
+        System.out.println("<Train time = "+String.format( "%.2f", trainTime)+">");
+        System.out.println("<Test time = "+String.format( "%.2f", testTime )+">");
+        System.out.println("<Total time = "+String.format( "%.2f",(trainTime+testTime))+">");
+    }
+
+    /**
+     * Create a file with all the outputs of the mnist train
+     * @throws IOException
+     */
+    public static void labelsString() throws IOException {
+        DataSetIterator testDataSet = new MnistDataSetIterator(1, MnistDataFetcher.NUM_EXAMPLES_TEST, false, false, false, 133);
+        String currentOuput="";
+        PrintWriter writer = new PrintWriter("outPutMnist.txt", "UTF-8");
+
+        while (testDataSet.hasNext()) {
+            DataSet next = testDataSet.next();
+            INDArray array=next.getLabels();
+
+            for(int j=0;j<array.length();j++){
+                if(array.getInt(j)==1)
+                    currentOuput+=j+"";
+            }
+
         }
-
-        System.out.println(eval.stats());
-        System.out.println("****************Example finished********************");
+        //System.out.print(currentOuput);
+        writer.println(currentOuput);
+        writer.close();
     }
 }
