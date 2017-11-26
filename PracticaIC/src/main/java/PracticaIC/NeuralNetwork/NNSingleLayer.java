@@ -35,34 +35,31 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 public class NNSingleLayer extends NeuralNetwork {
 
-    public NNSingleLayer(int rngSeed,int inputNum,int outputNum){
+    public NNSingleLayer(int inputNum,int outputNum){
         input=inputNum;
         output=outputNum;
 
-        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-            .seed(rngSeed)
+        MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-            .iterations(1)
-            .learningRate(0.06) //specify the learning rate
+            .learningRate(0.05)
             .updater(Updater.NESTEROVS)
-            .regularization(true).l2(1e-4)
             .list()
-            .layer(0, new DenseLayer.Builder() //create the first, input layer with xavier initialization
+            .layer(0, new DenseLayer.Builder()
                 .nIn(inputNum)
-                .nOut(10)
-                .activation(Activation.SIGMOID)
-                .weightInit(WeightInit.RELU)
+                .nOut(250)
+                .activation(Activation.TANH)
+                .weightInit(WeightInit.UNIFORM)
                 .build())
-            .layer(1, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD) //create hidden layer
-                .nIn(10)
+            .layer(1, new OutputLayer.Builder()
+                .nIn(250)
                 .nOut(outputNum)
                 .activation(Activation.SOFTMAX)
-                .weightInit(WeightInit.RELU)
+                .weightInit(WeightInit.UNIFORM)
                 .build())
-            .pretrain(false).backprop(true) //use backpropagation to adjust weights
+            .pretrain(false).backprop(true)
             .build();
 
-        network = new MultiLayerNetwork(conf);
+        network = new MultiLayerNetwork(configuration);
         network.init();
         //print the score with every 1 iteration
         network.setListeners(new ScoreIterationListener(1));

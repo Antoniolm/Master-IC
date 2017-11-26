@@ -34,36 +34,45 @@ import org.nd4j.linalg.learning.config.Nesterovs;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 public class NNMultiLayer extends NeuralNetwork {
-    public NNMultiLayer(int rngSeed,int numRows, int numColumns,int outputNum){
-        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-            .seed(rngSeed)
+    public NNMultiLayer(int inputNum,int outputNum){
+        input=inputNum;
+        output=outputNum;
+
+        MultiLayerConfiguration configuration = new NeuralNetConfiguration.Builder()
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-            .iterations(1)
-            .activation(Activation.RELU)
-            .weightInit(WeightInit.XAVIER)
-            .learningRate(0.06)
-            .updater(new Nesterovs(0.98))
-            .regularization(true).l2(0.06 * 0.005)
+            .learningRate(0.05)
+            .updater(Updater.NESTEROVS)
             .list()
             .layer(0, new DenseLayer.Builder()
-                .nIn(numRows * numColumns)
-                .nOut(500)
+                .nIn(inputNum)
+                .nOut(250)
+                .activation(Activation.TANH)
+                .weightInit(WeightInit.UNIFORM)
                 .build())
             .layer(1, new DenseLayer.Builder()
-                .nIn(500)
-                .nOut(100)
+                .nIn(250)
+                .nOut(250)
+                .activation(Activation.TANH)
+                .weightInit(WeightInit.UNIFORM)
                 .build())
-            .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
-                .activation(Activation.SOFTMAX)
-                .nIn(100)
+            .layer(2, new DenseLayer.Builder()
+                    .nIn(250)
+                    .nOut(250)
+                    .activation(Activation.TANH)
+                    .weightInit(WeightInit.UNIFORM)
+                    .build())
+            .layer(3, new OutputLayer.Builder()
+                .nIn(250)
                 .nOut(outputNum)
+                .activation(Activation.SOFTMAX)
+                .weightInit(WeightInit.UNIFORM)
                 .build())
             .pretrain(false).backprop(true)
             .build();
 
-        MultiLayerNetwork model = new MultiLayerNetwork(conf);
-        model.init();
-        model.setListeners(new ScoreIterationListener(5));
+        network = new MultiLayerNetwork(configuration);
+        network.init();
+        network.setListeners(new ScoreIterationListener(5));
     }
 
 }
