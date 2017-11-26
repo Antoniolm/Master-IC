@@ -35,13 +35,16 @@ public abstract class NeuralNetwork {
      *
      * @param dataSetIt
      */
-    public void train(DataSetIterator dataSetIt){
-        evaluation = new Evaluation(output);
-        while(dataSetIt.hasNext()) {
-            DataSet next = dataSetIt.next();
-            INDArray output = network.output(next.getFeatureMatrix());
-            evaluation.eval(next.getLabels(), output);
-            network.fit(next);
+    public void train(DataSetIterator dataSetIt, int epoch){
+        for (int i =0;i<epoch;i++) {
+            evaluation = new Evaluation(output);
+            while (dataSetIt.hasNext()) {
+                DataSet next = dataSetIt.next();
+                INDArray output = network.output(next.getFeatureMatrix());
+                evaluation.eval(next.getLabels(), output);
+                network.fit(next);
+            }
+            dataSetIt.reset();
         }
     }
 

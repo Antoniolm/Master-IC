@@ -19,6 +19,8 @@
 
 package PracticaIC;
 
+import PracticaIC.NeuralNetwork.NNConvolutional;
+import PracticaIC.NeuralNetwork.NNMultiLayer;
 import PracticaIC.NeuralNetwork.NNSingleLayer;
 import PracticaIC.NeuralNetwork.NeuralNetwork;
 import org.deeplearning4j.datasets.fetchers.MnistDataFetcher;
@@ -50,7 +52,7 @@ public class main {
     public static void main(String[] args) throws Exception {
         final int input = 28*28;
         int output = 10;
-        int blockImage = 128;
+        int blockImage = 64;
         int seedNumber = 74;
         double trainInitTime, trainTime;
         double testInitTime, testTime;
@@ -58,19 +60,21 @@ public class main {
         //Get the DataSetIterators:
         //DataSetIterator trainingDataSet = new MnistDataSetIterator(batchSize, true, rngSeed);
         //DataSetIterator testDataSet = new MnistDataSetIterator(batchSize, false, rngSeed);
-        DataSetIterator trainingDataSet = new MnistDataSetIterator(blockImage, MnistDataFetcher.NUM_EXAMPLES,false,true,false,seedNumber);
+        DataSetIterator trainingDataSet = new MnistDataSetIterator(blockImage, 60000,false,true,false,seedNumber);
         //System.out.println("Examples"+trainingDataSet.totalExamples());
-        DataSetIterator testDataSet = new MnistDataSetIterator(blockImage, MnistDataFetcher.NUM_EXAMPLES_TEST,false,false,false,seedNumber);
+        DataSetIterator testDataSet = new MnistDataSetIterator(blockImage, 10000,false,false,false,seedNumber);
 
         System.out.println("Building model....");
-        NeuralNetwork network=new NNSingleLayer(seedNumber,input,output);
+        //NeuralNetwork network=new NNSingleLayer(input,output);
+        //NeuralNetwork network=new NNMultiLayer(input,output);
+        NeuralNetwork network=new NNConvolutional(input,output);
 
         ////////////////////////////
         // Training neurol network
         ////////////////////////////
         trainInitTime=System.nanoTime();
         System.out.println("Train model....");
-        network.train(trainingDataSet);
+        network.train(trainingDataSet,1);
         network.showResults();
 
         trainTime=(System.nanoTime()-trainInitTime)/1000000000.0;
@@ -111,6 +115,7 @@ public class main {
             }
 
         }
+
         //System.out.print(currentOuput);
         writer.println(currentOuput);
         writer.close();
