@@ -15,11 +15,13 @@
 // ** You should have received a copy of the GNU General Public License
 // ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // **
+// ** Code reference :
+// ** https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/feedforward/mnist/MLPMnistSingleLayerExample.java
+// **
 // *********************************************************************
 
 package PracticaIC.NeuralNetwork;
 
-import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -28,10 +30,7 @@ import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.nd4j.linalg.activations.Activation;
-import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
-import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 public class NNSingleLayer extends NeuralNetwork {
 
@@ -61,7 +60,6 @@ public class NNSingleLayer extends NeuralNetwork {
 
         network = new MultiLayerNetwork(configuration);
         network.init();
-        //print the score with every 1 iteration
-        network.setListeners(new ScoreIterationListener(1));
+
     }
 }

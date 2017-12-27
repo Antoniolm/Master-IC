@@ -25,21 +25,9 @@ import PracticaIC.NeuralNetwork.NNSingleLayer;
 import PracticaIC.NeuralNetwork.NeuralNetwork;
 import org.deeplearning4j.datasets.fetchers.MnistDataFetcher;
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
-import org.deeplearning4j.eval.Evaluation;
-import org.deeplearning4j.nn.api.OptimizationAlgorithm;
-import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
-import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
-import org.deeplearning4j.nn.conf.Updater;
-import org.deeplearning4j.nn.conf.layers.DenseLayer;
-import org.deeplearning4j.nn.conf.layers.OutputLayer;
-import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
-import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
-import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
-import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,12 +45,12 @@ public class main {
         double trainInitTime, trainTime;
         double testInitTime, testTime;
 
-        //Get the DataSetIterators:
-        //DataSetIterator trainingDataSet = new MnistDataSetIterator(batchSize, true, rngSeed);
-        //DataSetIterator testDataSet = new MnistDataSetIterator(batchSize, false, rngSeed);
-        DataSetIterator trainingDataSet = new MnistDataSetIterator(blockImage, 60000,false,true,false,seedNumber);
+        DataSetIterator trainingDataSet = new MnistDataSetIterator(blockImage, true, seedNumber);
+        DataSetIterator testDataSet = new MnistDataSetIterator(blockImage, false, seedNumber);
+        //DataSetIterator trainingDataSet = new MnistDataSetIterator(blockImage, 60000,false,true,false,seedNumber);
+        //DataSetIterator testDataSet = new MnistDataSetIterator(blockImage, 10000,false,false,false,seedNumber);
         //System.out.println("Examples"+trainingDataSet.totalExamples());
-        DataSetIterator testDataSet = new MnistDataSetIterator(blockImage, 10000,false,false,false,seedNumber);
+        //System.out.println("Examples"+testDataSet.totalExamples());
 
         System.out.println("Building model....");
         //NeuralNetwork network=new NNSingleLayer(input,output);
@@ -74,7 +62,7 @@ public class main {
         ////////////////////////////
         trainInitTime=System.nanoTime();
         System.out.println("Train model....");
-        network.train(trainingDataSet,1);
+        network.train(trainingDataSet,40);
         network.showResults();
 
         trainTime=(System.nanoTime()-trainInitTime)/1000000000.0;
@@ -89,7 +77,7 @@ public class main {
         network.showResults();
 
         testTime=(System.nanoTime()-testInitTime)/1000000000.0;
-        //labelsString();
+        //labelsString(); // to extract the file data
 
         System.out.println("<Train time = "+String.format( "%.2f", trainTime)+">");
         System.out.println("<Test time = "+String.format( "%.2f", testTime )+">");
@@ -97,7 +85,7 @@ public class main {
     }
 
     /**
-     * Create a file with all the outputs of the mnist train
+     * Create a file with all the outputs of the mnist test
      * @throws IOException
      */
     public static void labelsString() throws IOException {
@@ -116,7 +104,6 @@ public class main {
 
         }
 
-        //System.out.print(currentOuput);
         writer.println(currentOuput);
         writer.close();
     }

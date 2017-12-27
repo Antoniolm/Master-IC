@@ -15,13 +15,14 @@
 // ** You should have received a copy of the GNU General Public License
 // ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // **
+// ** Code reference :
+// ** https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/convolution/LenetMnistExample.java
+// **
 // *********************************************************************
 
 package PracticaIC.NeuralNetwork;
 
-import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
-import org.deeplearning4j.nn.conf.LearningRatePolicy;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
 import org.deeplearning4j.nn.conf.Updater;
@@ -32,15 +33,7 @@ import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.conf.layers.SubsamplingLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.nd4j.linalg.activations.Activation;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.dataset.DataSet;
-import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
-import org.nd4j.linalg.lossfunctions.LossFunctions;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class NNConvolutional extends NeuralNetwork {
@@ -54,10 +47,10 @@ public class NNConvolutional extends NeuralNetwork {
                 .learningRate(.01)
                 .updater(Updater.NESTEROVS)
                 .list()
-                .layer(0, new ConvolutionLayer.Builder(5, 5)
+                .layer(0, new ConvolutionLayer.Builder(3, 3)
                         .nIn(1)
                         .stride(1, 1)
-                        .nOut(100)
+                        .nOut(30)
                         .activation(Activation.IDENTITY)
                         .weightInit(WeightInit.XAVIER)
                         .build())
@@ -65,9 +58,9 @@ public class NNConvolutional extends NeuralNetwork {
                         .kernelSize(2,2)
                         .stride(2,2)
                         .build())
-                .layer(2, new ConvolutionLayer.Builder(5, 5)
+                .layer(2, new ConvolutionLayer.Builder(3, 3)
                         .stride(1, 1)
-                        .nOut(100)
+                        .nOut(60)
                         .activation(Activation.IDENTITY)
                         .weightInit(WeightInit.XAVIER)
                         .build())
@@ -81,6 +74,7 @@ public class NNConvolutional extends NeuralNetwork {
                         .weightInit(WeightInit.XAVIER)
                         .build())
                 .layer(5, new OutputLayer.Builder()
+                        .nIn(100)
                         .nOut(outputNum)
                         .activation(Activation.SOFTMAX)
                         .weightInit(WeightInit.XAVIER)
@@ -91,44 +85,6 @@ public class NNConvolutional extends NeuralNetwork {
 
                 network = new MultiLayerNetwork(configuration);
                 network.init();
-
-                /*
-                .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-                .learningRate(0.05)//.biasLearningRate(0.02)
-                .updater(Updater.NESTEROVS) //To configure: .updater(new Nesterovs(0.9))
-                .list()
-                .layer(0, new ConvolutionLayer.Builder(5, 5)
-                        //nIn and nOut specify depth. nIn here is the nChannels and nOut is the number of filters to be applied
-                        .nIn(1)
-                        .stride(1, 1)
-                        .nOut(20)
-                        .activation(Activation.IDENTITY)
-                        .weightInit(WeightInit.UNIFORM)
-                        .build())
-                .layer(1, new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
-                        .kernelSize(2,2)
-                        .stride(2,2)
-                        .build())
-                .layer(2, new ConvolutionLayer.Builder(5, 5)
-                        //Note that nIn need not be specified in later layers
-                        .stride(1, 1)
-                        .nOut(50)
-                        .activation(Activation.IDENTITY)
-                        .weightInit(WeightInit.UNIFORM)
-                        .build())
-                .layer(3, new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.MAX)
-                        .kernelSize(2,2)
-                        .stride(2,2)
-                        .build())
-                .layer(4, new DenseLayer.Builder().activation(Activation.RELU)
-                        .nOut(50).build())
-                .layer(5, new OutputLayer.Builder()
-                        .nOut(outputNum)
-                        .activation(Activation.SOFTMAX)
-                        .weightInit(WeightInit.UNIFORM)
-                        .build())
-                .setInputType(InputType.convolutionalFlat(28,28,1)) //See note below
-                .backprop(true).pretrain(false).build();*/
     }
 
 }

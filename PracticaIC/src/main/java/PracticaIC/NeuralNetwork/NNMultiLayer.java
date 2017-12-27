@@ -15,6 +15,9 @@
 // ** You should have received a copy of the GNU General Public License
 // ** along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // **
+// ** Code reference :
+// ** https://github.com/deeplearning4j/dl4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/feedforward/mnist/MLPMnistTwoLayerExample.java
+// **
 // *********************************************************************
 
 package PracticaIC.NeuralNetwork;
@@ -27,11 +30,7 @@ import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.nd4j.linalg.activations.Activation;
-import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
-import org.nd4j.linalg.learning.config.Nesterovs;
-import org.nd4j.linalg.lossfunctions.LossFunctions;
 
 public class NNMultiLayer extends NeuralNetwork {
     public NNMultiLayer(int inputNum,int outputNum){
@@ -56,11 +55,11 @@ public class NNMultiLayer extends NeuralNetwork {
                 .weightInit(WeightInit.UNIFORM)
                 .build())
             .layer(2, new DenseLayer.Builder()
-                    .nIn(250)
-                    .nOut(250)
-                    .activation(Activation.TANH)
-                    .weightInit(WeightInit.UNIFORM)
-                    .build())
+                .nIn(250)
+                .nOut(250)
+                .activation(Activation.TANH)
+                .weightInit(WeightInit.UNIFORM)
+                .build())
             .layer(3, new OutputLayer.Builder()
                 .nIn(250)
                 .nOut(outputNum)
@@ -72,7 +71,6 @@ public class NNMultiLayer extends NeuralNetwork {
 
         network = new MultiLayerNetwork(configuration);
         network.init();
-        network.setListeners(new ScoreIterationListener(5));
     }
 
 }

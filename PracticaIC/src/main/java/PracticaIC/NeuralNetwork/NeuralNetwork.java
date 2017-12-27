@@ -19,11 +19,16 @@
 
 package PracticaIC.NeuralNetwork;
 
+import org.deeplearning4j.datasets.fetchers.MnistDataFetcher;
+import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public abstract class NeuralNetwork {
     protected MultiLayerNetwork network;
@@ -32,7 +37,7 @@ public abstract class NeuralNetwork {
     int input;
 
     /**
-     *
+     * Train the neurol network
      * @param dataSetIt
      */
     public void train(DataSetIterator dataSetIt, int epoch){
@@ -45,11 +50,12 @@ public abstract class NeuralNetwork {
                 network.fit(next);
             }
             dataSetIt.reset();
+            System.out.println("Epoch -("+ (i+1) +"/"+epoch+")");
         }
     }
 
     /**
-     *
+     * Show the result of the last evaluation
      */
     public void showResults(){
         if(evaluation != null)
@@ -59,19 +65,51 @@ public abstract class NeuralNetwork {
     }
 
     /**
-     *
+     * Evaluate the dataSetIt
      */
-    public void evaluate(DataSetIterator dataSetIt){
+    public void evaluate(DataSetIterator dataSetIt) throws IOException {
         evaluation = new Evaluation(output);
+        String currentOutputString="";
+
         while(dataSetIt.hasNext()) {
             DataSet next = dataSetIt.next();
             INDArray output = network.output(next.getFeatureMatrix());
+
+            for(int i=0;i<output.rows();i++) {
+                INDArray currentOut=output.getRow(i);
+                //System.out.println(currentOut.toString());
+                currentOutputString += currentResultImage(output.getRow(i)) + "";
+            }
+
             evaluation.eval(next.getLabels(), output);
         }
+        obtainStringResult(currentOutputString);
+    }
+
+    private int currentResultImage(INDArray outPut){
+        int result=0;
+        float currentMax=outPut.getFloat(0);
+
+        for (int j = 1; j < outPut.length(); j++) {
+            if (outPut.getFloat(j) > currentMax) {
+                result = j;
+                currentMax=outPut.getFloat(j);
+            }
+        }
+
+        return result;
+    }
+
+
+    private void obtainStringResult(String ouput) throws IOException{
+        PrintWriter writer = new PrintWriter("outPutMnist.txt", "UTF-8");
+
+        writer.println(ouput);
+        writer.close();
     }
 
     /**
-     *
+     * Return the current neural network
      * @return
      */
     public MultiLayerNetwork getNetwork() {
