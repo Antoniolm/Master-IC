@@ -20,7 +20,7 @@
 #include <string>
 
 using namespace std;
-  
+
 class Reader{
 public:
 
@@ -34,6 +34,8 @@ public:
   //////////////////////////////////////////////////////////////////////////
   virtual ~Reader();
 
+  void init();
+
   //////////////////////////////////////////////////////////////////////////
   /**
    *  It will read the file of the parameters
@@ -46,7 +48,9 @@ public:
 protected:
 
 private:
-  int sizeproblem;
+  int sizeProblem;
+  int** distanceMatrix;
+  int** flowMatrix;
 
 
 

@@ -19,17 +19,40 @@
 
 #include <stdlib.h>
 #include "reader.h"
+#include <iostream>
 
 using namespace std;
 
 Reader::Reader(){
-
+  sizeProblem=5;
 }
 
 //************************************************//
 
 Reader::~Reader(){
+  if(sizeProblem!=0){
+    for(int i=0;i<sizeProblem;i++){
+      free(distanceMatrix[i]);
+      free(flowMatrix[i]);
+    }
 
+    free(distanceMatrix);
+    free(flowMatrix);
+  }
+
+}
+
+void Reader::init(){
+  if(sizeProblem!=0){
+
+    distanceMatrix= (int**) malloc(sizeProblem * sizeof(int*));
+    flowMatrix= (int**) malloc(sizeProblem * sizeof(int*));
+
+    for(int i=0;i<sizeProblem;i++){
+      distanceMatrix[i]=(int*) malloc(sizeProblem * sizeof(int));
+      flowMatrix[i]=(int*) malloc(sizeProblem * sizeof(int));
+    }
+  }
 }
 
 //************************************************//

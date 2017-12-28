@@ -19,13 +19,16 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include "reader.h"
 
 using namespace std;
 
 int main(void)
  {
+   Reader *reader=new Reader();
+   reader->init(); 
+   cout<< "Work"<<endl;
 
-    cout<< "I work fine"<<endl;
-
-    return 0;
+   delete reader;
+   return 0;
  }
