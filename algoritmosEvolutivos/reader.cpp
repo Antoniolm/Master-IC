@@ -19,12 +19,13 @@
 
 #include <stdlib.h>
 #include "reader.h"
+#include <string>
 #include <iostream>
 
 using namespace std;
 
 Reader::Reader(){
-  sizeProblem=5;
+  sizeProblem=0;
 }
 
 //************************************************//
@@ -42,6 +43,30 @@ Reader::~Reader(){
 
 }
 
+//************************************************//
+
+void Reader::read(string file){
+  ifstream inputfile;
+  string strLine;
+
+  inputfile.open(file.c_str());
+
+  getline( inputfile, strLine );
+  sizeProblem=atoi(strLine.c_str());
+  cout<< "--Problem size: "<<sizeProblem<<endl;
+
+  init();
+  /*while (getline( inputfile, strLine )){
+
+
+  }*/
+
+  inputfile.close();
+}
+
+//************************************************//
+// PRIVATE METHODS
+//************************************************//
 void Reader::init(){
   if(sizeProblem!=0){
 
@@ -53,10 +78,5 @@ void Reader::init(){
       flowMatrix[i]=(int*) malloc(sizeProblem * sizeof(int));
     }
   }
-}
-
-//************************************************//
-
-void Reader::read(string file){
 
 }

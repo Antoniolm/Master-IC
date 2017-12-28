@@ -23,12 +23,11 @@
 
 using namespace std;
 
-int main(void)
- {
-   Reader *reader=new Reader();
-   reader->init(); 
-   cout<< "Work"<<endl;
+int main(void){ 
 
+   Reader *reader=new Reader();
+   reader->read("qapdata/bur26a.dat");
    delete reader;
    return 0;
+
  }

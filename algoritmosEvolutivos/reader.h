@@ -18,6 +18,7 @@
 // *********************************************************************
 
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -34,13 +35,11 @@ public:
   //////////////////////////////////////////////////////////////////////////
   virtual ~Reader();
 
-  void init();
-
   //////////////////////////////////////////////////////////////////////////
   /**
    *  It will read the file of the parameters
-   *    \param file -> the name of the file that will be read
-   *    \return
+   *  \param file -> the name of the file that will be read
+   *  \return
    */
   //////////////////////////////////////////////////////////////////////////
   void read(string file);
@@ -52,6 +51,12 @@ private:
   int** distanceMatrix;
   int** flowMatrix;
 
-
+  //////////////////////////////////////////////////////////////////////////
+  /**
+   *  It will initialize the matrix of elements
+   *  \return
+   */
+  //////////////////////////////////////////////////////////////////////////
+  void init();
 
 };
