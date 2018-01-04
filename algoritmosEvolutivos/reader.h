@@ -19,6 +19,7 @@
 
 #include <string>
 #include <fstream>
+#include "matrix.h"
 
 using namespace std;
 
@@ -53,8 +54,8 @@ protected:
 
 private:
   int sizeProblem;
-  int** distanceMatrix;
-  int** flowMatrix;
+  Matrix* distanceMatrix;
+  Matrix* flowMatrix;
 
   //////////////////////////////////////////////////////////////////////////
   /**

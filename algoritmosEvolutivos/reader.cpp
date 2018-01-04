@@ -40,13 +40,8 @@ Reader::Reader(string file){
 
 Reader::~Reader(){
   if(sizeProblem>0){
-    for(int i=0;i<sizeProblem;i++){
-      free(distanceMatrix[i]);
-      free(flowMatrix[i]);
-    }
-
-    free(distanceMatrix);
-    free(flowMatrix);
+    delete distanceMatrix;
+    delete flowMatrix;
   }
 
 }
@@ -82,13 +77,8 @@ void Reader::read(string file){
 void Reader::init(){
   if(sizeProblem>0){
 
-    distanceMatrix= (int**) malloc(sizeProblem * sizeof(int*));
-    flowMatrix= (int**) malloc(sizeProblem * sizeof(int*));
-
-    for(int i=0;i<sizeProblem;i++){
-      distanceMatrix[i]=(int*) malloc(sizeProblem * sizeof(int));
-      flowMatrix[i]=(int*) malloc(sizeProblem * sizeof(int));
-    }
+    distanceMatrix=new Matrix(sizeProblem);
+    flowMatrix=new Matrix(sizeProblem);
   }
 
 }
