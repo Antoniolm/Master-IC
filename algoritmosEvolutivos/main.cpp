@@ -27,7 +27,8 @@ int main(void){
 
    Reader *reader=new Reader("qapdata/chr15a.dat");
    //reader->read("qapdata/bur26a.dat");
+   cout<<reader->toString();
    delete reader;
    return 0;
-
+ 
  }

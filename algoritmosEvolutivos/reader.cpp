@@ -57,7 +57,7 @@ void Reader::read(string file){
 
   getline( inputfile, strLine );
   sizeProblem=atoi(strLine.c_str());
-  cout<< "--Problem size: "<<sizeProblem<<endl;
+
   initMatrix();
 
   getline( inputfile, strLine ); //skip empty line
@@ -68,6 +68,16 @@ void Reader::read(string file){
 
 
   inputfile.close();
+}
+
+//************************************************//
+
+string Reader::toString(){
+  string result;
+  result.append(to_string(sizeProblem).append("\r\n"));
+  result.append(distanceMatrix->toString());
+  result.append(flowMatrix->toString());
+  return result;
 }
 
 //************************************************//

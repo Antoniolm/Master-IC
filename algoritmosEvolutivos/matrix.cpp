@@ -83,19 +83,17 @@ void Matrix::readMatrix(ifstream & stream){
     int cont=0;
     int j=0;
 
-      cout<< "Was created"<<endl;
-      while (cont<size && getline( stream, strLine )){
-        istringstream iss(strLine.c_str());
-        j=0;
-        while (getline(iss,auxStr, ' ')){
-            if(auxStr!=""){
-              matrix[cont][j]=atoi(auxStr.c_str());
-              j++;
-            }
-        }
-        cout<< endl;
-        cont++;
+    while (cont<size && getline( stream, strLine )){
+      istringstream iss(strLine.c_str());
+      j=0;
+      while (getline(iss,auxStr, ' ')){
+          if(auxStr!=""){
+            matrix[cont][j]=atoi(auxStr.c_str());
+            j++;
+          }
       }
+      cont++;
+    }
   }
 }
 
@@ -110,6 +108,12 @@ void Matrix::setSize(int sizeM){
 
 int Matrix::getSize(){
   return size;
+}
+
+//************************************************//
+
+int Matrix::get(int i,int j){
+  return matrix[i][j];
 }
 
 //************************************************//
