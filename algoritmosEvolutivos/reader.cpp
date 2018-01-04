@@ -21,6 +21,7 @@
 #include "reader.h"
 #include <string>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -30,8 +31,15 @@ Reader::Reader(){
 
 //************************************************//
 
+Reader::Reader(string file){
+  sizeProblem=0;
+  read(file);
+}
+
+//************************************************//
+
 Reader::~Reader(){
-  if(sizeProblem!=0){
+  if(sizeProblem>0){
     for(int i=0;i<sizeProblem;i++){
       free(distanceMatrix[i]);
       free(flowMatrix[i]);
@@ -48,6 +56,7 @@ Reader::~Reader(){
 void Reader::read(string file){
   ifstream inputfile;
   string strLine;
+  string auxStr;
 
   inputfile.open(file.c_str());
 
@@ -56,10 +65,13 @@ void Reader::read(string file){
   cout<< "--Problem size: "<<sizeProblem<<endl;
 
   init();
-  /*while (getline( inputfile, strLine )){
-
-
-  }*/
+  while (getline( inputfile, strLine )){
+    /*istringstream iss(strLine.c_str());
+    while (getline(iss,auxStr, ' ')){
+        cout<< auxStr;
+    }*/
+    cout<<strLine<<endl;
+  }
 
   inputfile.close();
 }
@@ -68,7 +80,7 @@ void Reader::read(string file){
 // PRIVATE METHODS
 //************************************************//
 void Reader::init(){
-  if(sizeProblem!=0){
+  if(sizeProblem>0){
 
     distanceMatrix= (int**) malloc(sizeProblem * sizeof(int*));
     flowMatrix= (int**) malloc(sizeProblem * sizeof(int*));

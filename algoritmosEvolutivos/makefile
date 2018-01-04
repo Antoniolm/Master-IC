@@ -6,7 +6,7 @@ CFLAGS  = -g -Wall
 
 #Target
 TARGET = main
-DEPENDENCIES = reader.cpp
+DEPENDENCIES = reader.cpp matrix.cpp
 
 all: $(TARGET)
 
