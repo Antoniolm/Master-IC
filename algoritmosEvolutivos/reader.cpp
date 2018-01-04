@@ -58,15 +58,14 @@ void Reader::read(string file){
   getline( inputfile, strLine );
   sizeProblem=atoi(strLine.c_str());
   cout<< "--Problem size: "<<sizeProblem<<endl;
+  initMatrix();
 
-  init();
-  while (getline( inputfile, strLine )){
-    /*istringstream iss(strLine.c_str());
-    while (getline(iss,auxStr, ' ')){
-        cout<< auxStr;
-    }*/
-    cout<<strLine<<endl;
-  }
+  getline( inputfile, strLine ); //skip empty line
+  distanceMatrix->readMatrix(inputfile);
+
+  getline( inputfile, strLine ); //skip empty line
+  flowMatrix->readMatrix(inputfile);
+
 
   inputfile.close();
 }
@@ -74,7 +73,7 @@ void Reader::read(string file){
 //************************************************//
 // PRIVATE METHODS
 //************************************************//
-void Reader::init(){
+void Reader::initMatrix(){
   if(sizeProblem>0){
 
     distanceMatrix=new Matrix(sizeProblem);

@@ -79,9 +79,23 @@ Matrix::~Matrix(){
 //************************************************//
 void Matrix::readMatrix(ifstream & stream){
   if(size>0 && matrix!=0){
+    string strLine,auxStr;
+    int cont=0;
+    int j=0;
+
       cout<< "Was created"<<endl;
-
-
+      while (cont<size && getline( stream, strLine )){
+        istringstream iss(strLine.c_str());
+        j=0;
+        while (getline(iss,auxStr, ' ')){
+            if(auxStr!=""){
+              matrix[cont][j]=atoi(auxStr.c_str());
+              j++;
+            }
+        }
+        cout<< endl;
+        cont++;
+      }
   }
 }
 
@@ -104,10 +118,11 @@ string Matrix::toString(){
   string result;
 
   for(int i=0;i<size;i++){
-    for(int j=0;i<size;j++){
+    for(int j=0;j<size;j++){
       result.append(to_string(matrix[i][j]).append(" "));
     }
-    result.append("\n");
+
+    result.append("\r\n");
   }
   return result;
 }

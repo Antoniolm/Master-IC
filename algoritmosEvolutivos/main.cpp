@@ -23,10 +23,10 @@
 
 using namespace std;
 
-int main(void){ 
+int main(void){
 
-   Reader *reader=new Reader();
-   reader->read("qapdata/bur26a.dat");
+   Reader *reader=new Reader("qapdata/chr15a.dat");
+   //reader->read("qapdata/bur26a.dat");
    delete reader;
    return 0;
 
