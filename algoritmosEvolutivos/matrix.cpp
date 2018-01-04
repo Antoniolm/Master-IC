@@ -75,12 +75,39 @@ Matrix::~Matrix(){
   }
 }
 
-//************************************************//
 
+//************************************************//
 void Matrix::readMatrix(ifstream & stream){
   if(size>0 && matrix!=0){
       cout<< "Was created"<<endl;
 
 
   }
+}
+
+//************************************************//
+
+
+void Matrix::setSize(int sizeM){
+  size=sizeM;
+}
+
+//************************************************//
+
+int Matrix::getSize(){
+  return size;
+}
+
+//************************************************//
+
+string Matrix::toString(){
+  string result;
+
+  for(int i=0;i<size;i++){
+    for(int j=0;i<size;j++){
+      result.append(to_string(matrix[i][j]).append(" "));
+    }
+    result.append("\n");
+  }
+  return result;
 }

@@ -54,6 +54,11 @@ public:
   //////////////////////////////////////////////////////////////////////////
   void readMatrix(ifstream & stream);
 
+  void setSize(int sizeM);
+  int getSize();
+
+  string toString();
+
 protected:
 
 private:
