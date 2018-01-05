@@ -66,18 +66,29 @@ void Reader::read(string file){
   getline( inputfile, strLine ); //skip empty line
   flowMatrix->readMatrix(inputfile);
 
-
   inputfile.close();
 }
 
-//************************************************//
 
+//************************************************//
 string Reader::toString(){
   string result;
   result.append(to_string(sizeProblem).append("\r\n"));
   result.append(distanceMatrix->toString());
   result.append(flowMatrix->toString());
   return result;
+}
+
+//************************************************//
+
+Matrix * Reader::getDistanceMatrix(){
+  return distanceMatrix;
+}
+
+//************************************************//
+
+Matrix * Reader::getFlowMatrix(){
+  return flowMatrix;
 }
 
 //************************************************//
