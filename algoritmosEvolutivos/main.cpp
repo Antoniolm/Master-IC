@@ -20,8 +20,9 @@
 #include <stdlib.h>
 #include <iostream>
 #include "reader.h"
+#include "population.h"
 
-using namespace std;
+using namespace std;    
 
 int main(void){
 
@@ -29,6 +30,10 @@ int main(void){
    //reader->read("qapdata/bur26a.dat");
    cout<<reader->toString();
    delete reader;
+
+   Population * popu=new Population(5);
+   delete popu;
+
    return 0;
- 
+
  }
