@@ -58,10 +58,15 @@ void Population::init(int sizeP){
 
 //************************************************//
 
-int Population::calculatePopulationFitness(){
-  int result=0;
+void Population::calculateFitness(){
+  fitness=0;
     for(int i=0;i<size; i++)
-      result+=population[i].getFitness();
+      fitness+=population[i].getFitness();
 
-  return result;
+}
+
+//************************************************//
+
+int Population::getFitness(){
+  return fitness;
 }

@@ -46,7 +46,9 @@ public:
 
   void init(int sizeP);
 
-  int calculatePopulationFitness();
+  void calculateFitness();
+
+  int getFitness();
 
 
 protected:
@@ -54,6 +56,7 @@ protected:
 private:
   int size;
   Individual* population;
+  int fitness;
 
 
 };
