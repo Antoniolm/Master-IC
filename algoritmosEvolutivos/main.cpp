@@ -20,9 +20,9 @@
 #include <stdlib.h>
 #include <iostream>
 #include "reader.h"
-#include "population.h"
+#include "geneticAlgorithm/gaStandar.h"
 
-using namespace std;    
+using namespace std;
 
 int main(void){
 
@@ -31,8 +31,9 @@ int main(void){
    cout<<reader->toString();
    delete reader;
 
-   Population * popu=new Population(5);
-   delete popu;
+   GAStandar* GAlgorithmStandar=new GAStandar();
+
+   delete GAlgorithmStandar;
 
    return 0;
 

@@ -6,7 +6,7 @@ CFLAGS  = -g -Wall
 
 #Target
 TARGET = main
-DEPENDENCIES = reader.cpp matrix.cpp individual.cpp population.cpp  genericAlgorithm/*
+DEPENDENCIES = reader.cpp matrix.cpp individual.cpp population.cpp  geneticAlgorithm/*
 
 all: $(TARGET)
 
