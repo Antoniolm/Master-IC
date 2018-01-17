@@ -77,9 +77,20 @@ void GAStandar::execute(){
 
 void GAStandar::mutation(){
   Individual* individual = population.getPopulation();
+  int firstIndex,secondIndex;
 
-  for(int i=0;i<populationSize;i++){
-    
+  for(int j=0;j<populationSize;j++){
+      for(int i=0;i<populationSize;i++){
+        if (rand() % 100 < 5) {
+
+          do{
+            secondIndex=rand()%populationSize;
+          }while(secondIndex==i);
+
+          individual[j].swapGenes(i,secondIndex)
+
+        }
+      }
   }
 }
 
