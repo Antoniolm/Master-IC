@@ -39,7 +39,6 @@ Individual::Individual(int numGenes){
 }
 //************************************************//
 
-
 Individual::~Individual(){
   free(genes);
 }
@@ -48,11 +47,13 @@ Individual::~Individual(){
 
 void Individual::init(){
   for(int i=0;i<nGenes;i++){
-    genes[i]=rand()%1;
+    genes[i]=rand()%sizeProblem;     // size 50 = 0-49
   }
 
-  for(int i=0;i<nGenes/2;i++){
-    swapGenes(i,nGenes-i-1);
+  int secIndex;
+  for(int i=0;i<nGenes;i++){
+    int secIndex=(rand()+i)%100;
+    swapGenes(i,secIndex);
   }
 
 }
@@ -61,7 +62,7 @@ void Individual::init(){
 
 void Individual::calculateFitness(){
   fitness=0;
-  for(int i=0;i<nGenes;i++)
+  for(int i=0;i<nGenes;i++) //utilizar matrix distance y matrixflow
     fitness+=genes[i];
 }
 
@@ -87,12 +88,14 @@ string Individual::getChromosome(){
 
 
 //************************************************//
+
 int Individual::getFitness(){
   return fitness;
 }
 
 
 //************************************************//
+
 void Individual::setNGenes(int size){
   nGenes=size;
 }

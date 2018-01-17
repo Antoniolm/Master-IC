@@ -4,18 +4,17 @@ Osea si 50 problemaSize seleccionadmos 25 parejas para crear otros 50 población
 Ahora bien de generación en generación podemos desechar toda la generación anterior,
 O otros casos pueden ser selecciono el mejor de todos y otro 49 niños.
 
-Dudas crossover -> mirar apuntes con permutaciones OMX PMX -> mi mutación no nos sirve ahora mismo
+Dudas crossover -> mirar apuntes con permutaciones OMX PMX -> mi mutación no sirve ahora mismo
 Dudas mutación -> con respecto a los hijos que son toda la población de la siguiente generacióń?
 
-Dudas inicializar población --> enseñar
-Dudas calcular fitness
+Dudas calcular fitness --> bucle for que aplique la formula que viene en el pdf del guión
 
 Población mismo tamaño siempre? de 25 padres salen 50 hijos = poblacion de 50 hijos
 
 Inicialización de la población
 -Si el problema es de 50 cada gen tendra un valor aleatorio entre 0-49  (buscar si es asi bien)
 -Y despues se hace un cambio de cada posición del vector de genes.
-  -El primero se intercambio con cualquier indice incluso consigo mismo
+  -El primero se intercambia con cualquier indice incluso consigo mismo
   -El segundo ignora el indice 0 y empieza por el indice 1 y se hace el mismo proceso
 
 Calculo de los fitness

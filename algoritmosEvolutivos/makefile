@@ -15,3 +15,7 @@ $(TARGET): $(TARGET).cpp
 
 clean:
 	$(RM) $(TARGET)
+# la poblacion[size = sizeProblem]  V
+# hacer permutaciones aleatorias para inicializarlas
+# cojo el primero y lo cambio con el n-1
+# la funcion que evalua una permutación ( calcula el fitness ) es la que usa las matriz de distancia y flujo
