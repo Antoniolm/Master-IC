@@ -111,5 +111,5 @@ Individual* GAStandar::crossover(Individual* ind1,Individual* ind2){
 //************************************************//
 
 void GAStandar::selection(){
-
+    Individual* resutlChild;
 }
