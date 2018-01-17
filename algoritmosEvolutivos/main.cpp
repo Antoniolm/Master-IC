@@ -31,7 +31,8 @@ int main(void){
    cout<<reader->toString();
    delete reader;
 
-   GAStandar* GAlgorithmStandar=new GAStandar();
+   GAStandar* GAlgorithmStandar=new GAStandar(reader.getProblemSize());
+   
 
    delete GAlgorithmStandar;
 

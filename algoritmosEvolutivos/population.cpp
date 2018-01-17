@@ -70,3 +70,9 @@ void Population::calculateFitness(){
 int Population::getFitness(){
   return fitness;
 }
+
+//************************************************//
+
+Individual* Population::getPopulation(){
+  return population;
+}

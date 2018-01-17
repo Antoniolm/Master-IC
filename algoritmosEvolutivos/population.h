@@ -50,6 +50,8 @@ public:
 
   int getFitness();
 
+  Individual* getPopulation();
+
 
 protected:
 

@@ -81,6 +81,12 @@ string Reader::toString(){
 
 //************************************************//
 
+int Reader::getProblemSize(){
+  return sizeProblem;
+}
+
+//************************************************//
+
 Matrix * Reader::getDistanceMatrix(){
   return distanceMatrix;
 }

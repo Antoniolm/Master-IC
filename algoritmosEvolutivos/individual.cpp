@@ -60,6 +60,14 @@ void Individual::calculateFitness(){
 
 //************************************************//
 
+void Individual::swapGenes(int firstIndex, int secondIndex){
+  int auxValue=genes[firstIndex];
+  genes[firstIndex]=genes[secondIndex];
+  genes[secondIndex]=auxValue;
+}
+
+//************************************************//
+
 int * Individual::getGenes(){
   return genes;
 }

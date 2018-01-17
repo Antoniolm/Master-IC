@@ -56,6 +56,7 @@ public:
   //////////////////////////////////////////////////////////////////////////
   void calculateFitness();
 
+  void swapGenes();
   int * getGenes();
   string getChromosome();
   int getFitness();
