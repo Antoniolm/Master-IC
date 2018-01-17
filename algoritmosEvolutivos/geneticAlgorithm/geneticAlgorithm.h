@@ -22,6 +22,7 @@
 
 #include <string>
 #include <fstream>
+#include "../individual.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ public:
 
   virtual void execute()=0;
   virtual void mutation()=0;
-  virtual void crossover()=0;
+  virtual Individual* crossover(Individual* ind1,Individual* ind2)=0;
   virtual void selection()=0;
 
 protected:

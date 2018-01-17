@@ -51,8 +51,10 @@ void Population::init(int sizeP){
   if(size>0){
     population=new Individual[size];
 
-    for(int i=0;i<size; i++)
+    for(int i=0;i<size; i++){
+      population[i].setNGenes(size);
       population[i].init();
+    }
   }
 }
 

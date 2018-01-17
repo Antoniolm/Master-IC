@@ -56,17 +56,15 @@ void GAStandar::execute(){
     // optimizacion local -> no estandar solo los otros dos
 
            selection();
-           crossover(); // suele ser mitad y mitad
-                        //
+           crossover(new Individual(populationSize),new Individual(populationSize)); // suele ser mitad y mitad
+                        // Cambiar por los reales selection
                         //
                         //
 
-           // hacer la mutación individoo a individuo selecciono
-           if (rand() % 100 < 10) {
-               mutation(); // intercambiar dos genes de posición
-                           // recorro el cromosoma  0.05 ( sea por proporción del problema ) por cada gen y si es 0.05 lo muto sino no
+           // mutation for each individual
+          mutation(); // intercambiar dos genes de posición
+                      // recorro el cromosoma  0.05 ( sea por proporción del problema ) por cada gen y si es 0.05 lo muto sino no
 
-           }
 
           population->calculateFitness();
   }
@@ -76,8 +74,8 @@ void GAStandar::execute(){
 //************************************************//
 
 void GAStandar::mutation(){
-  Individual* individual = population.getPopulation();
-  int firstIndex,secondIndex;
+  Individual* individual = population->getPopulation();
+  int secondIndex;
 
   for(int j=0;j<populationSize;j++){
       for(int i=0;i<populationSize;i++){
@@ -87,7 +85,7 @@ void GAStandar::mutation(){
             secondIndex=rand()%populationSize;
           }while(secondIndex==i);
 
-          individual[j].swapGenes(i,secondIndex)
+          individual[j].swapGenes(i,secondIndex);
 
         }
       }
@@ -96,8 +94,18 @@ void GAStandar::mutation(){
 
 //************************************************//
 
-void GAStandar::crossover(){
+Individual* GAStandar::crossover(Individual* ind1,Individual* ind2){
+  Individual* resultChild=new Individual[2];
+  resultChild[0].setNGenes(populationSize); resultChild[0].init();
+  resultChild[1].setNGenes(populationSize); resultChild[1].init();
 
+  int* genes1=ind1->getGenes();
+  int* genes2=ind2->getGenes();
+
+  resultChild[0].crossover(populationSize/2,genes1,genes2);
+  resultChild[1].crossover(populationSize/2,genes2,genes1);
+
+  return resultChild;
 }
 
 //************************************************//

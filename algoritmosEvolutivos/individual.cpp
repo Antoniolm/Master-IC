@@ -47,6 +47,13 @@ Individual::~Individual(){
 //************************************************//
 
 void Individual::init(){
+  for(int i=0;i<nGenes;i++){
+    genes[i]=rand()%1;
+  }
+
+  for(int i=0;i<nGenes/2;i++){
+    swapGenes(i,nGenes-i-1);
+  }
 
 }
 
@@ -78,8 +85,26 @@ string Individual::getChromosome(){
   return chromosome;
 }
 
-//************************************************//
 
+//************************************************//
 int Individual::getFitness(){
   return fitness;
+}
+
+
+//************************************************//
+void Individual::setNGenes(int size){
+  nGenes=size;
+}
+
+//************************************************/
+
+void Individual::crossover(int firstsection,int* genesP1, int* genesP2){
+  for(int i=0;i<firstsection;i++){
+      genes[i]=genesP1[i];
+  }
+
+  for(int i=firstsection;i<nGenes;i++){
+      genes[i]=genesP2[i];
+  }
 }

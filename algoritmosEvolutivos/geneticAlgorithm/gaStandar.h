@@ -24,6 +24,7 @@
 #include <fstream>
 #include "geneticAlgorithm.h"
 #include "../population.h"
+#include "../individual.h"
 
 using namespace std;
 
@@ -36,13 +37,18 @@ public:
   GAStandar();
 
   //////////////////////////////////////////////////////////////////////////
+  /** Constructor with parameters*/
+  //////////////////////////////////////////////////////////////////////////
+  GAStandar(int popuSize);
+
+  //////////////////////////////////////////////////////////////////////////
   /** Destructor */
   //////////////////////////////////////////////////////////////////////////
   virtual ~GAStandar();
 
   void execute();
   void mutation();
-  void crossover();
+  Individual* crossover(Individual* ind1,Individual* ind2);
   void selection();
 
 protected:
