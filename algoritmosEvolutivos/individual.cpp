@@ -21,6 +21,7 @@
 #include "individual.h"
 #include <string>
 #include <iostream>
+#include <random>
 
 using namespace std;
 
@@ -51,13 +52,18 @@ void Individual::init(){
   if(genes==0)
     genes=(int*) malloc(nGenes * sizeof(int));
 
+  std::random_device rd;
+  std::mt19937 generator{rd()};
+  std::uniform_int_distribution<> dis{0, nGenes-1};
+
   for(int i=0;i<nGenes;i++){
-    genes[i]=rand()%nGenes;     // size 50 = 0-49
+    genes[i]=dis(generator);
   }
 
   int secIndex;
   for(int i=0;i<nGenes;i++){
-    secIndex=(rand()+i)%nGenes;
+    std::uniform_int_distribution<> dis{i, nGenes-1};
+    secIndex=dis(generator);
     swapGenes(i,secIndex);
   }
 
