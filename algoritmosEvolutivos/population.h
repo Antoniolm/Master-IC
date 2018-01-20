@@ -52,6 +52,8 @@ public:
 
   Individual* getPopulation();
 
+  string toString();
+
 
 protected:
 

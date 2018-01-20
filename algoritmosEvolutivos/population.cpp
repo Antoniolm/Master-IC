@@ -53,7 +53,7 @@ void Population::init(int sizeP){
 
     for(int i=0;i<size; i++){
       population[i].setNGenes(size);
-      population[i].init();
+      //population[i].init();
     }
   }
 }
@@ -77,4 +77,15 @@ int Population::getFitness(){
 
 Individual* Population::getPopulation(){
   return population;
+}
+
+//************************************************//
+
+string Population::toString(){
+  string result="";
+
+  for(int i=0;i<size;i++)
+    result+=population[i].toString()+"\n";
+
+  return result;
 }

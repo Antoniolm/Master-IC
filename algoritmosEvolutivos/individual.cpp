@@ -37,22 +37,27 @@ Individual::Individual(int numGenes){
   genes=(int*) malloc(nGenes * sizeof(int));
   chromosome="";
 }
+
 //************************************************//
 
 Individual::~Individual(){
-  free(genes);
+  if(genes!=0)
+    free(genes);
 }
 
 //************************************************//
 
 void Individual::init(){
+  if(genes==0)
+    genes=(int*) malloc(nGenes * sizeof(int));
+
   for(int i=0;i<nGenes;i++){
-    genes[i]=rand()%sizeProblem;     // size 50 = 0-49
+    genes[i]=rand()%nGenes;     // size 50 = 0-49
   }
 
   int secIndex;
   for(int i=0;i<nGenes;i++){
-    int secIndex=(rand()+i)%100;
+    secIndex=(rand()+i)%100;
     swapGenes(i,secIndex);
   }
 
@@ -110,4 +115,16 @@ void Individual::crossover(int firstsection,int* genesP1, int* genesP2){
   for(int i=firstsection;i<nGenes;i++){
       genes[i]=genesP2[i];
   }
+}
+
+//************************************************/
+
+string Individual::toString(){
+  string result="[";
+
+  for(int i=0;i<nGenes;i++)
+    result+=genes[i]+",";
+
+  result+="]";
+  return result;
 }

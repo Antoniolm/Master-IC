@@ -112,7 +112,8 @@ public:
   //////////////////////////////////////////////////////////////////////////
   void crossover(int firstsection, int* genesP1, int* genesP2);
 
-  
+  string toString();
+
 protected:
 
 private:
