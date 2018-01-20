@@ -57,8 +57,9 @@ protected:
 
 private:
   Population* population;
+  int* currentSelection;
 
-  Individual* roulleteSelection();
+  int roulleteSelection();
 
 
 };

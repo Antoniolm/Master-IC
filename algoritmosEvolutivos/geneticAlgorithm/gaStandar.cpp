@@ -40,8 +40,10 @@ GAStandar::GAStandar(int popuSize){
 
 
 GAStandar::~GAStandar(){
-  if(population!=0)
+  if(population!=0){
     delete population;
+    free(currentSelection);
+  }
 }
 
 //************************************************//
@@ -49,6 +51,8 @@ GAStandar::~GAStandar(){
 void GAStandar::execute(Reader * reader){
 
   population=new Population(populationSize);
+  currentSelection=(int*) malloc(populationSize * sizeof(int));
+
   cout<< population->toString();
 
   population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
@@ -115,14 +119,14 @@ Individual* GAStandar::crossover(Individual* ind1,Individual* ind2){
 //************************************************//
 
 void GAStandar::selection(){
-    Individual* test=roulleteSelection();
-    if(test!=0)
-      cout<< "Fitness Selection: "<< test->getFitness()<<endl;
+
+    for(int i=0;i<populationSize;i++)
+      currentSelection[i]=roulleteSelection();
 }
 
 //************************************************//
 
-Individual* GAStandar::roulleteSelection(){
+int GAStandar::roulleteSelection(){
   float sumFitness=0;
   float currentFitness=0;
 
@@ -133,14 +137,12 @@ Individual* GAStandar::roulleteSelection(){
   uniform_real_distribution<> dist(0, sumFitness);
   float randNumber=dist(generator);
 
-  cout<< "Random:"<<randNumber<<"  ";
-
   for(int i=0;i<populationSize;i++){
     if(randNumber>=currentFitness && randNumber<=currentFitness+population->getPopulation()[i].getFitness())
-      return &(population->getPopulation()[i]);
+      return i;
 
     currentFitness+=population->getPopulation()[i].getFitness();
   }
 
-  return 0;
+  return -1;
 }

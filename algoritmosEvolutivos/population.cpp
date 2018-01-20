@@ -69,8 +69,8 @@ void Population::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix){
 
     for(int i=1;i<size; i++){
       population[i].calculateFitness(flowMatrix,distanceMatrix);
-      
-      cout<<"fitness="<< population[i].getFitness()<<endl;
+
+      //cout<<"fitness="<< population[i].getFitness()<<endl;
 
       if(population[i].getFitness()<fitness)
         fitness=population[i].getFitness();
