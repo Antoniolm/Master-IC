@@ -46,13 +46,14 @@ GAStandar::~GAStandar(){
 
 //************************************************//
 
-void GAStandar::execute(){
+void GAStandar::execute(Reader * reader){
 
   population=new Population(populationSize);
+  cout<< population->toString();
 
-  population->calculateFitness();
+  population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
 
-  while (population->getFitness() < 5) {
+  /*while (population->getFitness() < 5) {
     // optimizacion local -> no estandar solo los otros dos
 
            selection();
@@ -67,7 +68,7 @@ void GAStandar::execute(){
 
 
           population->calculateFitness();
-  }
+  }*/
 
 }
 
@@ -111,5 +112,5 @@ Individual* GAStandar::crossover(Individual* ind1,Individual* ind2){
 //************************************************//
 
 void GAStandar::selection(){
-    Individual* resutlChild;
+    //Individual* resutlChild;
 }

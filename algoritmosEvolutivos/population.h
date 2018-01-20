@@ -23,6 +23,7 @@
 #include <string>
 #include <fstream>
 #include "individual.h"
+#include "matrix.h"
 
 using namespace std;
 
@@ -46,7 +47,7 @@ public:
 
   void init(int sizeP);
 
-  void calculateFitness();
+  void calculateFitness(Matrix* distanceMatrix,Matrix* flowMatrix);
 
   int getFitness();
 

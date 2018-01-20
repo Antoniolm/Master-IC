@@ -22,17 +22,17 @@
 #include "reader.h"
 #include "geneticAlgorithm/gaStandar.h"
 
-using namespace std; 
+using namespace std;
 
 int main(void){
 
    Reader *reader=new Reader("qapdata/chr15a.dat");
    //reader->read("qapdata/bur26a.dat");
-   cout<<reader->toString();
-   delete reader;
+   //cout<<reader->toString();
 
    GAStandar* GAlgorithmStandar=new GAStandar(reader->getProblemSize());
-
+   GAlgorithmStandar->execute(reader);
+   delete reader;
    delete GAlgorithmStandar;
 
    return 0;

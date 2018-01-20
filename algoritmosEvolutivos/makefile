@@ -10,7 +10,7 @@ DEPENDENCIES = reader.cpp matrix.cpp individual.cpp population.cpp  geneticAlgor
 
 all: $(TARGET)
 
-$(TARGET): $(TARGET).cpp reader.cpp matrix.cpp individual.cpp population.cpp
+$(TARGET): $(TARGET).cpp reader.cpp matrix.cpp individual.cpp population.cpp geneticAlgorithm/gaStandar.cpp
 	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp $(DEPENDENCIES) -std=c++0x
 
 clean:

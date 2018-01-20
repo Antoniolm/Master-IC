@@ -65,10 +65,13 @@ void Individual::init(){
 
 //************************************************//
 
-void Individual::calculateFitness(){
+void Individual::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix){
   fitness=0;
-  for(int i=0;i<nGenes;i++) //utilizar matrix distance y matrixflow
-    fitness+=genes[i];
+  for (int i=0;i<nGenes;i++) {
+      for (int j=0;j<nGenes;j++) {
+          fitness+=flowMatrix->get(i,j) * distanceMatrix->get(genes[i],genes[j]);
+      }
+  }
 }
 
 //************************************************//

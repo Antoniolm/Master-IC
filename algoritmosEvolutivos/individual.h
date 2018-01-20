@@ -23,6 +23,7 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
+#include "matrix.h"
 
 using namespace std;
 
@@ -58,7 +59,7 @@ public:
    *  \return
    */
   //////////////////////////////////////////////////////////////////////////
-  void calculateFitness();
+  void calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix);
 
   //////////////////////////////////////////////////////////////////////////
   /**

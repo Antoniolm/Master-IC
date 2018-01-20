@@ -60,10 +60,12 @@ void Population::init(int sizeP){
 
 //************************************************//
 
-void Population::calculateFitness(){
+void Population::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix){
   fitness=0;
-    for(int i=0;i<size; i++)
+    for(int i=0;i<size; i++){
+      population[i].calculateFitness(flowMatrix,distanceMatrix);
       fitness+=population[i].getFitness();
+    }
 
 }
 
