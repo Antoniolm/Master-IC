@@ -123,7 +123,7 @@ string Individual::toString(){
   string result="[";
 
   for(int i=0;i<nGenes;i++)
-    result+=genes[i]+",";
+    result+=to_string(genes[i])+",";
 
   result+="]";
   return result;

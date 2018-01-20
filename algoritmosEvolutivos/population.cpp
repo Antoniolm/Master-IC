@@ -82,7 +82,7 @@ Individual* Population::getPopulation(){
 //************************************************//
 
 string Population::toString(){
-  string result="";
+  string result="Population size= "+to_string(size)+"\n";
 
   for(int i=0;i<size;i++)
     result+=population[i].toString()+"\n";
