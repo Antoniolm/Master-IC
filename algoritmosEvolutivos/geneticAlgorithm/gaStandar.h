@@ -22,9 +22,11 @@
 
 #include <string>
 #include <fstream>
+#include <random>
 #include "geneticAlgorithm.h"
 #include "../population.h"
 #include "../individual.h"
+
 
 using namespace std;
 
@@ -39,7 +41,7 @@ public:
   //////////////////////////////////////////////////////////////////////////
   /** Constructor with parameters*/
   //////////////////////////////////////////////////////////////////////////
-  GAStandar(int popuSize); 
+  GAStandar(int popuSize);
 
   //////////////////////////////////////////////////////////////////////////
   /** Destructor */
@@ -55,6 +57,8 @@ protected:
 
 private:
   Population* population;
+
+  Individual* roulleteSelection();
 
 
 };

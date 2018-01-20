@@ -53,10 +53,13 @@ void GAStandar::execute(Reader * reader){
 
   population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
 
-  /*while (population->getFitness() < 5) {
+  for(int i=0;i<populationSize;i++)
+    selection();
+  //for(int i=0;i)
+  //while (population->getFitness() < 5) {
     // optimizacion local -> no estandar solo los otros dos
 
-           selection();
+           /*selection();
            crossover(new Individual(populationSize),new Individual(populationSize)); // suele ser mitad y mitad
                         // Cambiar por los reales selection
                         //
@@ -67,15 +70,15 @@ void GAStandar::execute(Reader * reader){
                       // recorro el cromosoma  0.05 ( sea por proporción del problema ) por cada gen y si es 0.05 lo muto sino no
 
 
-          population->calculateFitness();
-  }*/
+          population->calculateFitness();*/
+  //}
 
 }
 
 //************************************************//
 
 void GAStandar::mutation(){
-  Individual* individual = population->getPopulation();
+  /*Individual* individual = population->getPopulation();
   int secondIndex;
 
   for(int j=0;j<populationSize;j++){
@@ -90,14 +93,14 @@ void GAStandar::mutation(){
 
         }
       }
-  }
+  }*/
 }
 
 //************************************************//
 
 Individual* GAStandar::crossover(Individual* ind1,Individual* ind2){
   Individual* resultChild=new Individual[2];
-  resultChild[0].setNGenes(populationSize); resultChild[0].init();
+  /*resultChild[0].setNGenes(populationSize); resultChild[0].init();
   resultChild[1].setNGenes(populationSize); resultChild[1].init();
 
   int* genes1=ind1->getGenes();
@@ -105,12 +108,39 @@ Individual* GAStandar::crossover(Individual* ind1,Individual* ind2){
 
   resultChild[0].crossover(populationSize/2,genes1,genes2);
   resultChild[1].crossover(populationSize/2,genes2,genes1);
-
+  */
   return resultChild;
 }
 
 //************************************************//
 
 void GAStandar::selection(){
-    //Individual* resutlChild;
+    Individual* test=roulleteSelection();
+    if(test!=0)
+      cout<< "Fitness Selection: "<< test->getFitness()<<endl;
+}
+
+//************************************************//
+
+Individual* GAStandar::roulleteSelection(){
+  float sumFitness=0;
+  float currentFitness=0;
+
+  for(int i=0;i<populationSize;i++)
+    sumFitness+=population->getPopulation()[i].getFitness();
+
+  mt19937 generator(random_device{}() );
+  uniform_real_distribution<> dist(0, sumFitness);
+  float randNumber=dist(generator);
+
+  cout<< "Random:"<<randNumber<<"  ";
+
+  for(int i=0;i<populationSize;i++){
+    if(randNumber>=currentFitness && randNumber<=currentFitness+population->getPopulation()[i].getFitness())
+      return &(population->getPopulation()[i]);
+
+    currentFitness+=population->getPopulation()[i].getFitness();
+  }
+
+  return 0;
 }
