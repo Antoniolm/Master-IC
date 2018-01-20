@@ -53,30 +53,23 @@ void GAStandar::execute(Reader * reader){
   population=new Population(populationSize);
   currentSelection=(int*) malloc(populationSize * sizeof(int));
 
-  cout<< population->toString();
-
   population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
 
-  int generation=0;
-
-
-  for(int i=0;i<1;i++){
+  for(int i=0;i<3;i++){
       //optimizacion local -> no estandar solo los otros dos
 
       selection();
-      //crossover(new Individual(populationSize),new Individual(populationSize)); // suele ser mitad y mitad
-                    // Cambiar por los reales selection
-                    //
-                    //
 
-       // mutation for each individual
-      mutation(); // intercambiar dos genes de posición
-                  // recorro el cromosoma  0.05 ( sea por proporción del problema ) por cada gen y si es 0.05 lo muto sino no
+      crossover();
 
+      mutation(); // mutation for each individual
 
       population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
       cout<< "================================"<<endl;
-      cout<< population->toString();
+      cout<< "Generation="<< i<<endl;
+
+      cout<< "Fitness="<< population->getFitness()<<endl;
+
   }
 
 }
@@ -109,18 +102,24 @@ void GAStandar::mutation(){
 
 //************************************************//
 
-Individual* GAStandar::crossover(Individual* ind1,Individual* ind2){
-  Individual* resultChild=new Individual[2];
-  /*resultChild[0].setNGenes(populationSize); resultChild[0].init();
-  resultChild[1].setNGenes(populationSize); resultChild[1].init();
+void GAStandar::crossover(){
+  Population* newGeneration=new Population(populationSize);
 
-  int* genes1=ind1->getGenes();
-  int* genes2=ind2->getGenes();
+  for(int i=0;i<populationSize/2;i++){
+    int* genes1=population->getPopulation()[i].getGenes();
+    int* genes2=population->getPopulation()[i+1].getGenes();
 
-  resultChild[0].crossover(populationSize/2,genes1,genes2);
-  resultChild[1].crossover(populationSize/2,genes2,genes1);
-  */
-  return resultChild;
+    newGeneration->getPopulation()[i].crossover(populationSize/2,genes1,genes2);
+    newGeneration->getPopulation()[i+1].crossover(populationSize/2,genes2,genes1);
+
+  }
+
+  /*if(populationSize%2==1){
+      newGeneration->getPopulation()[populationSize-1]=population->getPopulation()[populationSize-1];
+  }*/
+
+  delete population;
+  population=newGeneration;
 }
 
 //************************************************//

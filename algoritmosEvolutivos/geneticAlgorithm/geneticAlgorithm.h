@@ -37,7 +37,7 @@ public:
 
   virtual void execute(Reader* reader)=0;
   virtual void mutation()=0;
-  virtual Individual* crossover(Individual* ind1,Individual* ind2)=0;
+  virtual void crossover()=0;
   virtual void selection()=0;
 
 protected:

@@ -50,7 +50,7 @@ public:
 
   void execute(Reader* reader);
   void mutation();
-  Individual* crossover(Individual* ind1,Individual* ind2);
+  void crossover();
   void selection();
 
 protected:
