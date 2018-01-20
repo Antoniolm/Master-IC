@@ -52,9 +52,9 @@ void Individual::init(){
   if(genes==0)
     genes=(int*) malloc(nGenes * sizeof(int));
 
-  std::random_device rd;
-  std::mt19937 generator{rd()};
-  std::uniform_int_distribution<> dis{0, nGenes-1};
+  random_device rd;
+  mt19937 generator{rd()};
+  uniform_int_distribution<> dis{0, nGenes-1};
 
   for(int i=0;i<nGenes;i++){
     genes[i]=dis(generator);

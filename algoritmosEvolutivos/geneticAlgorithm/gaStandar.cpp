@@ -57,47 +57,54 @@ void GAStandar::execute(Reader * reader){
 
   population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
 
-  for(int i=0;i<populationSize;i++)
-    selection();
-  //for(int i=0;i)
-  //while (population->getFitness() < 5) {
-    // optimizacion local -> no estandar solo los otros dos
-
-           /*selection();
-           crossover(new Individual(populationSize),new Individual(populationSize)); // suele ser mitad y mitad
-                        // Cambiar por los reales selection
-                        //
-                        //
-
-           // mutation for each individual
-          mutation(); // intercambiar dos genes de posición
-                      // recorro el cromosoma  0.05 ( sea por proporción del problema ) por cada gen y si es 0.05 lo muto sino no
+  int generation=0;
 
 
-          population->calculateFitness();*/
-  //}
+  for(int i=0;i<1;i++){
+      //optimizacion local -> no estandar solo los otros dos
+
+      selection();
+      //crossover(new Individual(populationSize),new Individual(populationSize)); // suele ser mitad y mitad
+                    // Cambiar por los reales selection
+                    //
+                    //
+
+       // mutation for each individual
+      mutation(); // intercambiar dos genes de posición
+                  // recorro el cromosoma  0.05 ( sea por proporción del problema ) por cada gen y si es 0.05 lo muto sino no
+
+
+      population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
+      cout<< "================================"<<endl;
+      cout<< population->toString();
+  }
 
 }
 
 //************************************************//
 
 void GAStandar::mutation(){
-  /*Individual* individual = population->getPopulation();
+  Individual* individual = population->getPopulation();
   int secondIndex;
+
+  random_device rd;
+  mt19937 generator{rd()};
+  uniform_int_distribution<> probMutation{0, 99};
+  uniform_int_distribution<> probGene{0, populationSize-1};
 
   for(int j=0;j<populationSize;j++){
       for(int i=0;i<populationSize;i++){
-        if (rand() % 100 < 5) {
+        if (probMutation(generator)< 5) {
 
           do{
-            secondIndex=rand()%populationSize;
+            secondIndex=probGene(generator);
           }while(secondIndex==i);
 
           individual[j].swapGenes(i,secondIndex);
 
         }
       }
-  }*/
+  }
 }
 
 //************************************************//
