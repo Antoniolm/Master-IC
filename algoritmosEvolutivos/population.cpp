@@ -53,7 +53,7 @@ void Population::init(int sizeP){
 
     for(int i=0;i<size; i++){
       population[i].setNGenes(size);
-      //population[i].init();
+      population[i].init();
     }
   }
 }

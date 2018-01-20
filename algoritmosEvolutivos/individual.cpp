@@ -57,7 +57,7 @@ void Individual::init(){
 
   int secIndex;
   for(int i=0;i<nGenes;i++){
-    secIndex=(rand()+i)%100;
+    secIndex=(rand()+i)%nGenes;
     swapGenes(i,secIndex);
   }
 
