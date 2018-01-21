@@ -54,17 +54,14 @@ void Individual::init(){
 
   random_device rd;
   mt19937 generator{rd()};
-  uniform_int_distribution<> dis{0, nGenes-1};
 
   for(int i=0;i<nGenes;i++){
-    genes[i]=dis(generator);
+    genes[i]=i;
   }
 
-  int secIndex;
   for(int i=0;i<nGenes;i++){
-    std::uniform_int_distribution<> dis{i, nGenes-1};
-    secIndex=dis(generator);
-    swapGenes(i,secIndex);
+    uniform_int_distribution<> dis{i, nGenes-1};
+    swapGenes(i,dis(generator));
   }
 
 }
@@ -117,19 +114,42 @@ void Individual::setNGenes(int size){
 //************************************************/
 
 void Individual::crossover(int cutOff1,int cutOff2,int* genesP1, int* genesP2){
-  /*for(int i=0;i<firstsection;i++){
-      genes[i]=genesP1[i];
-  }
 
-  for(int i=firstsection;i<nGenes;i++){
-      genes[i]=genesP2[i];
-  }*/
+  bool* mapValue=(bool*) malloc(nGenes * sizeof(bool));
+  for(int i=0;i<nGenes;i++)
+    mapValue[i]=false;
 
   for(int i=cutOff1;i<cutOff2;i++){
       genes[i]=genesP1[i];
+      mapValue[genes[i]]=true;
   }
 
-  
+  int currentValue=cutOff2;
+
+  for(int i=cutOff2;i<nGenes;i++){
+
+    while(mapValue[genesP2[currentValue]]){
+      currentValue++;
+      if(currentValue==nGenes)
+        currentValue=0;
+    }
+    genes[i]=genesP2[currentValue];
+    mapValue[genes[i]]=true;
+
+  }
+
+  for(int i=0;i<cutOff1;i++){
+    while(mapValue[genesP2[currentValue]]){
+      currentValue++;
+      if(currentValue==nGenes)
+        currentValue=0;
+    }
+    genes[i]=genesP2[currentValue];
+    mapValue[genes[i]]=true;
+  }
+
+  free(mapValue);
+
 }
 
 //************************************************/

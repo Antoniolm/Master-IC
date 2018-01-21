@@ -55,6 +55,8 @@ void GAStandar::execute(Reader * reader){
 
   population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
 
+  cout<< population->toString();
+
   for(int i=0;i<3;i++){
       //optimizacion local -> no estandar solo los otros dos
 
@@ -111,12 +113,10 @@ void GAStandar::crossover(){
 
   for(int i=0;i<populationSize/2;i++){
 
-    int* genes1=population->getPopulation()[i].getGenes();
-    int* genes2=population->getPopulation()[i+1].getGenes();
-
+    int* genes1=population->getPopulation()[currentSelection[i]].getGenes();
+    int* genes2=population->getPopulation()[currentSelection[i+1]].getGenes();
 
     int cutOff1,cutOff2;
-
     cutOff1=probCutOff(generator);
 
     do{
@@ -128,8 +128,6 @@ void GAStandar::crossover(){
       cutOff1=cutOff2;
       cutOff2=aux;
     }
-
-
 
     newGeneration->getPopulation()[i].crossover(cutOff1,cutOff2,genes1,genes2);
     newGeneration->getPopulation()[i+1].crossover(cutOff1,cutOff2,genes2,genes1);
@@ -148,8 +146,10 @@ void GAStandar::crossover(){
 
 void GAStandar::selection(){
 
-    for(int i=0;i<populationSize;i++)
+    for(int i=0;i<populationSize;i++){
       currentSelection[i]=roulleteSelection();
+      cout<< "CurrentSelection="<<currentSelection[i]<< " "<< population->getPopulation()[currentSelection[i]].toString()<<endl;
+    }
 }
 
 //************************************************//
