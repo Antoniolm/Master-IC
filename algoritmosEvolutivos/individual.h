@@ -111,7 +111,7 @@ public:
    *  \return
    */
   //////////////////////////////////////////////////////////////////////////
-  void crossover(int firstsection, int* genesP1, int* genesP2);
+  void crossover(int cutOff1,int cutOff2, int* genesP1, int* genesP2);
 
   string toString();
 

@@ -105,12 +105,34 @@ void GAStandar::mutation(){
 void GAStandar::crossover(){
   Population* newGeneration=new Population(populationSize);
 
+  random_device rd;
+  mt19937 generator{rd()};
+  uniform_int_distribution<> probCutOff{0, populationSize-1};
+
   for(int i=0;i<populationSize/2;i++){
+
     int* genes1=population->getPopulation()[i].getGenes();
     int* genes2=population->getPopulation()[i+1].getGenes();
 
-    newGeneration->getPopulation()[i].crossover(populationSize/2,genes1,genes2);
-    newGeneration->getPopulation()[i+1].crossover(populationSize/2,genes2,genes1);
+
+    int cutOff1,cutOff2;
+
+    cutOff1=probCutOff(generator);
+
+    do{
+      cutOff2=probCutOff(generator);
+    }while(cutOff1==cutOff2);
+
+    if(cutOff2 < cutOff1){
+      int aux= cutOff1;
+      cutOff1=cutOff2;
+      cutOff2=aux;
+    }
+
+
+
+    newGeneration->getPopulation()[i].crossover(cutOff1,cutOff2,genes1,genes2);
+    newGeneration->getPopulation()[i+1].crossover(cutOff1,cutOff2,genes2,genes1);
 
   }
 

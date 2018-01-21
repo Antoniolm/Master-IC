@@ -116,14 +116,20 @@ void Individual::setNGenes(int size){
 
 //************************************************/
 
-void Individual::crossover(int firstsection,int* genesP1, int* genesP2){
-  for(int i=0;i<firstsection;i++){
+void Individual::crossover(int cutOff1,int cutOff2,int* genesP1, int* genesP2){
+  /*for(int i=0;i<firstsection;i++){
       genes[i]=genesP1[i];
   }
 
   for(int i=firstsection;i<nGenes;i++){
       genes[i]=genesP2[i];
+  }*/
+
+  for(int i=cutOff1;i<cutOff2;i++){
+      genes[i]=genesP1[i];
   }
+
+  
 }
 
 //************************************************/
