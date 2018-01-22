@@ -117,6 +117,8 @@ public:
 
   void localSearch(Matrix* flowMatrix,Matrix* distanceMatrix);
 
+  void copy(Individual *individual);
+
 protected:
 
 private:

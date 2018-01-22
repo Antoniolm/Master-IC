@@ -46,17 +46,7 @@ Individual::Individual(int numGenes){
 //************************************************//
 
 Individual::Individual(Individual *individual){
-  nGenes=individual->nGenes;
-  genes=(int*) malloc(nGenes * sizeof(int));
-  enhancedGenes=(int*) malloc(nGenes * sizeof(int));
-
-  for(int i=0;i<nGenes;i++){
-    genes[i]=individual->genes[i];
-    enhancedGenes[i]=individual->enhancedGenes[i];
-  }
-  fitness=individual->fitness;
-  enhancedFitness=individual->enhancedFitness;
-
+  copy(individual);
 }
 
 //************************************************//
@@ -88,6 +78,9 @@ void Individual::init(){
     swapGenes(i,dis(generator));
   }
 
+  fitness=0;
+  enhancedFitness=0;
+
 }
 
 //************************************************//
@@ -100,6 +93,7 @@ void  Individual::calculateBasicFitness(Matrix* flowMatrix,Matrix* distanceMatri
   }
 }
 
+//************************************************//
 
 void Individual::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GAType type){
   fitness=0;
@@ -210,6 +204,7 @@ string Individual::toString(){
 
 
 //************************************************/
+
 void Individual::localSearch(Matrix* flowMatrix,Matrix* distanceMatrix){
   Individual* best=0;
   Individual* S=new Individual(this);
@@ -249,6 +244,21 @@ void Individual::localSearch(Matrix* flowMatrix,Matrix* distanceMatrix){
   delete T;
   delete best;
 
+}
+
+//************************************************/
+
+void Individual::copy(Individual *individual){
+  nGenes=individual->nGenes;
+  genes=(int*) malloc(nGenes * sizeof(int));
+  enhancedGenes=(int*) malloc(nGenes * sizeof(int));
+
+  for(int i=0;i<nGenes;i++){
+    genes[i]=individual->genes[i];
+    enhancedGenes[i]=individual->enhancedGenes[i];
+  }
+  fitness=individual->fitness;
+  enhancedFitness=individual->enhancedFitness;
 }
 
 //************************************************/

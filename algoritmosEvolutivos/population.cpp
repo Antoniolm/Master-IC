@@ -33,8 +33,8 @@ Population::Population(){
 
 //************************************************//
 
-Population::Population(int sizeP){
-  init(sizeP);
+Population::Population(int sizePopulation,int sizeGenes){
+  init(sizePopulation,sizeGenes);
 }
 
 //************************************************//
@@ -46,13 +46,13 @@ Population::~Population(){
 
 //************************************************//
 
-void Population::init(int sizeP){
-  size=sizeP;
+void Population::init(int sizePopulation,int sizeGenes){
+  size=sizePopulation;
   if(size>0){
     population=new Individual[size];
 
     for(int i=0;i<size; i++){
-      population[i].setNGenes(size);
+      population[i].setNGenes(sizeGenes);
       population[i].init();
     }
   }
