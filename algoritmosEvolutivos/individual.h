@@ -24,6 +24,7 @@
 #include <fstream>
 #include <cstdlib>
 #include "matrix.h"
+#include "geneticAlgorithm/geneticAlgorithm.h"
 
 using namespace std;
 
@@ -59,7 +60,7 @@ public:
    *  \return
    */
   //////////////////////////////////////////////////////////////////////////
-  void calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix);
+  void calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GAType type);
 
   //////////////////////////////////////////////////////////////////////////
   /**
@@ -81,19 +82,13 @@ public:
 
   //////////////////////////////////////////////////////////////////////////
   /**
-   *  It will return the current chromosome of the individual
-   *  \return string
-   */
-  //////////////////////////////////////////////////////////////////////////
-  string getChromosome();
-
-  //////////////////////////////////////////////////////////////////////////
-  /**
    *  It will return the current fitness of the individual
    *  \return int
    */
   //////////////////////////////////////////////////////////////////////////
   int getFitness();
+
+  int getFitnessSelection();
 
   //////////////////////////////////////////////////////////////////////////
   /**
@@ -115,13 +110,16 @@ public:
 
   string toString();
 
+  void localSearch();
+
 protected:
 
 private:
   int * genes;       // genes of the individul
+  int * enhancedGenes;
   int nGenes;
-  string chromosome; // solution of the individual
   int fitness;       // score of the individual
+  int enhancedFitness;
 
 
 };

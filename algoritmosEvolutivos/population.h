@@ -22,11 +22,12 @@
 
 #include <string>
 #include <fstream>
-#include "individual.h"
 #include "matrix.h"
+#include "geneticAlgorithm/geneticAlgorithm.h"
 
 using namespace std;
 
+class Individual;
 class Population{
 public:
 
@@ -47,7 +48,7 @@ public:
 
   void init(int sizeP);
 
-  void calculateFitness(Matrix* distanceMatrix,Matrix* flowMatrix);
+  void calculateFitness(Matrix* distanceMatrix,Matrix* flowMatrix,GAType type);
 
   int getFitness();
 

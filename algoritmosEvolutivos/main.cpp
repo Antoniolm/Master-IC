@@ -26,11 +26,11 @@ using namespace std;
 
 int main(void){
 
-   Reader *reader=new Reader("qapdata/chr15a.dat");
+   Reader *reader=new Reader("qapdata/chr12a.dat");
 
-   GAStandar* GAlgorithmStandar=new GAStandar(reader->getProblemSize());
+   GAStandar* GAlgorithmStandar=new GAStandar(reader->getProblemSize(),STANDAR);
    GAlgorithmStandar->execute(reader);
-   
+
    delete reader;
    delete GAlgorithmStandar;
 

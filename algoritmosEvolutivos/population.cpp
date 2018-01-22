@@ -60,13 +60,13 @@ void Population::init(int sizeP){
 
 //************************************************//
 
-void Population::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix){
+void Population::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GAType type){
 
-    population[0].calculateFitness(flowMatrix,distanceMatrix);
+    population[0].calculateFitness(flowMatrix,distanceMatrix,type);
     fitness=population[0].getFitness();
 
     for(int i=1;i<size; i++){
-      population[i].calculateFitness(flowMatrix,distanceMatrix);
+      population[i].calculateFitness(flowMatrix,distanceMatrix,type);
 
       if(population[i].getFitness()<fitness)
         fitness=population[i].getFitness();
@@ -92,7 +92,7 @@ string Population::toString(){
   string result="Population size= "+to_string(size)+"\n";
 
   for(int i=0;i<size;i++)
-    result+=population[i].toString()+"\n";
+    result+=population[i].toString()+ "Fitness:"+to_string(population[i].getFitness())+"\n";
 
   return result;
 }

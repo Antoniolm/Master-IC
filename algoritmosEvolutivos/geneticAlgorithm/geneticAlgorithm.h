@@ -22,10 +22,10 @@
 
 #include <string>
 #include <fstream>
-#include "../individual.h"
 #include "../reader.h"
 
 using namespace std;
+enum GAType { STANDAR, DARWINISM, LAMARCKISM };
 
 class GeneticAlgorithm{
 public:

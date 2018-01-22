@@ -23,18 +23,22 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
+#include "../individual.h"
+#include "../population.h"
 
 using namespace std;
 
 GAStandar::GAStandar(){
   population=0;
+  type=STANDAR;
 }
 
 //************************************************//
 
-GAStandar::GAStandar(int popuSize){
+GAStandar::GAStandar(int popuSize,GAType aType){
   populationSize=popuSize;
   population=0;
+  type=aType;
 }
 //************************************************//
 
@@ -53,7 +57,7 @@ void GAStandar::execute(Reader * reader){
   population=new Population(populationSize);
   currentSelection=(int*) malloc(populationSize * sizeof(int));
 
-  population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
+  population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
 
   cout<< population->toString();
 
@@ -66,7 +70,7 @@ void GAStandar::execute(Reader * reader){
 
       mutation(); // mutation for each individual
 
-      population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix());
+      population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
       cout<< "================================"<<endl;
       cout<< "Generation="<< i<<endl;
 
@@ -148,7 +152,7 @@ void GAStandar::selection(){
 
     for(int i=0;i<populationSize;i++){
       currentSelection[i]=roulleteSelection();
-      cout<< "CurrentSelection="<<currentSelection[i]<< " "<< population->getPopulation()[currentSelection[i]].toString()<<endl;
+      cout<< "   CurrentSelection="<<currentSelection[i]<< " "<< population->getPopulation()[currentSelection[i]].toString()<<endl;
     }
 }
 
@@ -161,14 +165,16 @@ int GAStandar::roulleteSelection(){
   for(int i=0;i<populationSize;i++)
     sumFitness+=population->getPopulation()[i].getFitness();
 
+
   mt19937 generator(random_device{}() );
   uniform_real_distribution<> dist(0, sumFitness);
   float randNumber=dist(generator);
 
   for(int i=0;i<populationSize;i++){
-    if(randNumber>=currentFitness && randNumber<=currentFitness+population->getPopulation()[i].getFitness())
+    if(randNumber>=currentFitness && randNumber<=currentFitness+population->getPopulation()[i].getFitness()){
+      cout<< "Pos:"<<i<< " fitness:"<< population->getPopulation()[i].getFitness();
       return i;
-
+    }
     currentFitness+=population->getPopulation()[i].getFitness();
   }
 

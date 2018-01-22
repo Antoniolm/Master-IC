@@ -25,10 +25,9 @@
 
 using namespace std;
 
-Individual::Individual(){
+Individual::Individual(){ 
   nGenes=0;
   genes=0;
-  chromosome="";
 }
 
 //************************************************//
@@ -36,7 +35,6 @@ Individual::Individual(){
 Individual::Individual(int numGenes){
   nGenes=numGenes;
   genes=(int*) malloc(nGenes * sizeof(int));
-  chromosome="";
 }
 
 //************************************************//
@@ -68,7 +66,7 @@ void Individual::init(){
 
 //************************************************//
 
-void Individual::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix){
+void Individual::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GAType type){
   fitness=0;
   for (int i=0;i<nGenes;i++) {
       for (int j=0;j<nGenes;j++) {
@@ -90,13 +88,6 @@ void Individual::swapGenes(int firstIndex, int secondIndex){
 int * Individual::getGenes(){
   return genes;
 }
-
-//************************************************//
-
-string Individual::getChromosome(){
-  return chromosome;
-}
-
 
 //************************************************//
 
@@ -152,8 +143,8 @@ void Individual::crossover(int cutOff1,int cutOff2,int* genesP1, int* genesP2){
 
 }
 
-//************************************************/
 
+//************************************************/
 string Individual::toString(){
   string result="[";
 
@@ -162,4 +153,11 @@ string Individual::toString(){
 
   result+="]";
   return result;
+}
+
+//************************************************/
+
+void Individual::localSearch(){
+
+
 }

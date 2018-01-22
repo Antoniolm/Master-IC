@@ -24,12 +24,11 @@
 #include <fstream>
 #include <random>
 #include "geneticAlgorithm.h"
-#include "../population.h"
-#include "../individual.h"
-
+#include "../reader.h"
 
 using namespace std;
 
+class Population;
 class GAStandar : public GeneticAlgorithm{
 public:
 
@@ -41,7 +40,7 @@ public:
   //////////////////////////////////////////////////////////////////////////
   /** Constructor with parameters*/
   //////////////////////////////////////////////////////////////////////////
-  GAStandar(int popuSize);
+  GAStandar(int popuSize,GAType aType);
 
   //////////////////////////////////////////////////////////////////////////
   /** Destructor */
@@ -58,6 +57,8 @@ protected:
 private:
   Population* population;
   int* currentSelection;
+  GAType type;
+
 
   int roulleteSelection();
 
