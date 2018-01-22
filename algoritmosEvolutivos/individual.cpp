@@ -28,27 +28,53 @@ using namespace std;
 Individual::Individual(){
   nGenes=0;
   genes=0;
+  enhancedGenes=0;
+  fitness=0;
+  enhancedFitness=0;
 }
 
 //************************************************//
 
 Individual::Individual(int numGenes){
+  fitness=0;
+  enhancedFitness=0;
   nGenes=numGenes;
   genes=(int*) malloc(nGenes * sizeof(int));
+  enhancedGenes=(int*) malloc(nGenes * sizeof(int));
+}
+
+//************************************************//
+
+Individual::Individual(Individual *individual){
+  nGenes=individual->nGenes;
+  genes=(int*) malloc(nGenes * sizeof(int));
+  enhancedGenes=(int*) malloc(nGenes * sizeof(int));
+
+  for(int i=0;i<nGenes;i++){
+    genes[i]=individual->genes[i];
+    enhancedGenes[i]=individual->enhancedGenes[i];
+  }
+  fitness=individual->fitness;
+  enhancedFitness=individual->enhancedFitness;
+
 }
 
 //************************************************//
 
 Individual::~Individual(){
-  if(genes!=0)
+  if(genes!=0){
     free(genes);
+    free(enhancedGenes);
+  }
 }
 
 //************************************************//
 
 void Individual::init(){
-  if(genes==0)
+  if(genes==0){
     genes=(int*) malloc(nGenes * sizeof(int));
+    enhancedGenes=(int*) malloc(nGenes * sizeof(int));
+  }
 
   random_device rd;
   mt19937 generator{rd()};
@@ -66,11 +92,22 @@ void Individual::init(){
 
 //************************************************//
 
+void  Individual::calculateBasicFitness(Matrix* flowMatrix,Matrix* distanceMatrix){
+  fitness=0;
+  for (int i=0;i<nGenes;i++) {
+      for (int j=0;j<nGenes;j++)
+          fitness+=flowMatrix->get(i,j) * distanceMatrix->get(genes[i],genes[j]);
+  }
+}
+
+
 void Individual::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GAType type){
   fitness=0;
-  if(type==DARWINISM || type==LAMARCKISM){
+  enhancedFitness=0;
 
-    localSearch();
+  if(type==BALDWINIAN || type==LAMARCKIAN){
+
+    localSearch(flowMatrix,distanceMatrix);
 
     for (int i=0;i<nGenes;i++) {
         for (int j=0;j<nGenes;j++)
@@ -78,11 +115,11 @@ void Individual::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GATy
     }
     fitness=enhancedFitness;
   }
-  else if(type==STANDAR || type==DARWINISM){
-    for (int i=0;i<nGenes;i++) {
-        for (int j=0;j<nGenes;j++)
-            fitness+=flowMatrix->get(i,j) * distanceMatrix->get(genes[i],genes[j]);
-    }
+  else if(type==STANDAR || type==BALDWINIAN){
+    calculateBasicFitness(flowMatrix,distanceMatrix);
+
+    if(type==STANDAR)
+      enhancedFitness=fitness;
   }
 }
 
@@ -166,9 +203,53 @@ string Individual::toString(){
   return result;
 }
 
+
+//************************************************/
+void Individual::localSearch(Matrix* flowMatrix,Matrix* distanceMatrix){
+  Individual* best=0;
+  Individual* S=new Individual(this);
+  Individual* T=0;
+
+  S->calculateBasicFitness(flowMatrix,distanceMatrix);
+
+  do{
+      if(best!=0)
+        delete best;
+
+      best=new Individual(S);
+      for(int i=0;i<nGenes;i++){
+        for(int j=i+1;j<nGenes;j++){
+            if(T!=0)
+              delete T;
+
+            T=new Individual(S);
+
+            T->getGenes()[i]=S->getGenes()[j];
+            T->getGenes()[j]=S->getGenes()[i];
+            T->calculateBasicFitness(flowMatrix,distanceMatrix);
+
+            if(T->getFitness() < S->getFitness()){
+              delete S;
+              S=new Individual(T);
+            }
+        }
+      }
+
+  } while(S->getFitness() < best->getFitness());
+
+  for(int i=0;i<nGenes;i++)
+    enhancedGenes[i]=S->getGenes()[i];
+
+  delete S;
+  delete T;
+  delete best;
+
+}
+
 //************************************************/
 
-void Individual::localSearch(){
-
+void Individual::copyGenes(int* copiedGenes){
+  for(int i=0;i<nGenes;i++)
+    genes[i]=copiedGenes[i];
 
 }

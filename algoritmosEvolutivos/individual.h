@@ -41,6 +41,8 @@ public:
   //////////////////////////////////////////////////////////////////////////
   Individual(int numGenes);
 
+  Individual(Individual *individual);
+
   //////////////////////////////////////////////////////////////////////////
   /** Destructor */
   //////////////////////////////////////////////////////////////////////////
@@ -53,6 +55,9 @@ public:
    */
   //////////////////////////////////////////////////////////////////////////
   void init();
+
+
+  void calculateBasicFitness(Matrix* flowMatrix,Matrix* distanceMatrix);
 
   //////////////////////////////////////////////////////////////////////////
   /**
@@ -110,7 +115,7 @@ public:
 
   string toString();
 
-  void localSearch();
+  void localSearch(Matrix* flowMatrix,Matrix* distanceMatrix);
 
 protected:
 
@@ -120,6 +125,8 @@ private:
   int nGenes;
   int fitness;       // score of the individual
   int enhancedFitness;
+
+  void copyGenes(int *copiedGenes);
 
 
 };

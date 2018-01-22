@@ -25,7 +25,7 @@
 #include "../reader.h"
 
 using namespace std;
-enum GAType { STANDAR, DARWINISM, LAMARCKISM };
+enum GAType { STANDAR, BALDWINIAN, LAMARCKIAN };
 
 class GeneticAlgorithm{
 public:

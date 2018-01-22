@@ -26,6 +26,7 @@ using namespace std;
 
 int main(void){
 
+   //Reader *reader=new Reader("qapdata/chr12a.dat");
    Reader *reader=new Reader("qapdata/chr12a.dat");
 
    GAStandar* GAlgorithmStandar=new GAStandar(reader->getProblemSize(),STANDAR);
