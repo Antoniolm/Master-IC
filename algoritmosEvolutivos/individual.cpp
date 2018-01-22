@@ -25,7 +25,7 @@
 
 using namespace std;
 
-Individual::Individual(){ 
+Individual::Individual(){
   nGenes=0;
   genes=0;
 }
@@ -68,10 +68,21 @@ void Individual::init(){
 
 void Individual::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GAType type){
   fitness=0;
-  for (int i=0;i<nGenes;i++) {
-      for (int j=0;j<nGenes;j++) {
-          fitness+=flowMatrix->get(i,j) * distanceMatrix->get(genes[i],genes[j]);
-      }
+  if(type==DARWINISM || type==LAMARCKISM){
+
+    localSearch();
+
+    for (int i=0;i<nGenes;i++) {
+        for (int j=0;j<nGenes;j++)
+            enhancedFitness+=flowMatrix->get(i,j) * distanceMatrix->get(enhancedGenes[i],enhancedGenes[j]);
+    }
+    fitness=enhancedFitness;
+  }
+  else if(type==STANDAR || type==DARWINISM){
+    for (int i=0;i<nGenes;i++) {
+        for (int j=0;j<nGenes;j++)
+            fitness+=flowMatrix->get(i,j) * distanceMatrix->get(genes[i],genes[j]);
+    }
   }
 }
 
