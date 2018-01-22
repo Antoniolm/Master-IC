@@ -63,13 +63,13 @@ void Population::init(int sizeP){
 void Population::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GAType type){
 
     population[0].calculateFitness(flowMatrix,distanceMatrix,type);
-    fitness=population[0].getFitness();
+    fitness=population[0].getEnhancedFitness();
 
     for(int i=1;i<size; i++){
       population[i].calculateFitness(flowMatrix,distanceMatrix,type);
 
       if(population[i].getFitness()<fitness)
-        fitness=population[i].getFitness();
+        fitness=population[i].getEnhancedFitness();
     }
 
 }

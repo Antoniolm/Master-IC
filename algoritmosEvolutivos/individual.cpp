@@ -115,7 +115,7 @@ void Individual::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GATy
     }
     fitness=enhancedFitness;
   }
-  else if(type==STANDAR || type==BALDWINIAN){
+  if(type==STANDAR || type==BALDWINIAN){
     calculateBasicFitness(flowMatrix,distanceMatrix);
 
     if(type==STANDAR)
@@ -137,12 +137,17 @@ int * Individual::getGenes(){
   return genes;
 }
 
-//************************************************//
 
+//************************************************//
 int Individual::getFitness(){
   return fitness;
 }
 
+//************************************************//
+
+int Individual::getEnhancedFitness(){
+  return enhancedFitness;
+}
 
 //************************************************//
 
