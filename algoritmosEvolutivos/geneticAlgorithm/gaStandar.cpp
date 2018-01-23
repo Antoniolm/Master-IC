@@ -35,8 +35,9 @@ GAStandar::GAStandar(){
 
 //************************************************//
 
-GAStandar::GAStandar(int popuSize,GAType aType){
+GAStandar::GAStandar(int popuSize,int sizeGene,GAType aType){
   populationSize=popuSize;
+  geneSize=sizeGene;
   population=0;
   type=aType;
 }
@@ -54,29 +55,29 @@ GAStandar::~GAStandar(){
 
 void GAStandar::execute(Reader * reader){
 
-  population=new Population(populationSize);
+  population=new Population(populationSize,geneSize);
   currentSelection=(int*) malloc(populationSize * sizeof(int));
 
   population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
 
-  cout<< population->toString();
+  //cout<< population->toString();
 
-  for(int i=0;i<3;i++){
+  //for(int i=0;i<3;i++){
       //optimizacion local -> no estandar solo los otros dos
 
-      selection();
+      //selection();
 
-      crossover();
+      //crossover();
 
       mutation(); // mutation for each individual
 
-      population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
-      cout<< "================================"<<endl;
-      cout<< "Generation="<< i<<endl;
+      //population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
+      //cout<< "================================"<<endl;
+      //cout<< "Generation="<< i<<endl;
 
-      cout<< "Fitness="<< population->getFitness()<<endl;
+      //cout<< "Fitness="<< population->getFitness()<<endl;
 
-  }
+  //}
 
 }
 
@@ -89,10 +90,10 @@ void GAStandar::mutation(){
   random_device rd;
   mt19937 generator{rd()};
   uniform_int_distribution<> probMutation{0, 99};
-  uniform_int_distribution<> probGene{0, populationSize-1};
+  uniform_int_distribution<> probGene{0, geneSize-1};
 
   for(int j=0;j<populationSize;j++){
-      for(int i=0;i<populationSize;i++){
+      for(int i=0;i<geneSize;i++){
         if (probMutation(generator)< 5) {
 
           do{
@@ -109,7 +110,7 @@ void GAStandar::mutation(){
 //************************************************//
 
 void GAStandar::crossover(){
-  Population* newGeneration=new Population(populationSize);
+  Population* newGeneration=new Population(1,populationSize);
 
   random_device rd;
   mt19937 generator{rd()};

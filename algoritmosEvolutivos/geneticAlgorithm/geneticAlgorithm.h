@@ -42,6 +42,7 @@ public:
 
 protected:
   int populationSize;
+  int geneSize;
 
 private:
 

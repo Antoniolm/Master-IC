@@ -206,33 +206,28 @@ string Individual::toString(){
 //************************************************/
 
 void Individual::localSearch(Matrix* flowMatrix,Matrix* distanceMatrix){
-  Individual* best=0;
+  Individual* best=new Individual(this);
   Individual* S=new Individual(this);
-  Individual* T=0;
+  Individual* T=new Individual(this);
 
   S->calculateBasicFitness(flowMatrix,distanceMatrix);
 
   do{
-      if(best!=0)
-        delete best;
-
-      best=new Individual(S);
+      best->copy(S);
       for(int i=0;i<nGenes;i++){
         for(int j=i+1;j<nGenes;j++){
-            if(T!=0)
-              delete T;
 
-            T=new Individual(S);
+            T->copy(S);
 
             T->getGenes()[i]=S->getGenes()[j];
             T->getGenes()[j]=S->getGenes()[i];
             T->calculateBasicFitness(flowMatrix,distanceMatrix);
 
             if(T->getFitness() < S->getFitness()){
-              delete S;
-              S=new Individual(T);
+              S->copy(T);
             }
         }
+        cout<<"Opt->" <<i<<"/"<<nGenes<<endl;
       }
 
   } while(S->getFitness() < best->getFitness());
