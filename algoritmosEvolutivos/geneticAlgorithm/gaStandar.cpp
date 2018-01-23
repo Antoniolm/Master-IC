@@ -64,7 +64,6 @@ void GAStandar::execute(Reader * reader){
 
   for(int i=0;i<3;i++){
       //optimizacion local -> no estandar solo los otros dos
-
       selection();
 
       crossover();
