@@ -34,7 +34,7 @@ int main(void){
    GAStandar* GAlgorithmStandar=new GAStandar(2,reader->getProblemSize(),LAMARCKIAN);
    //GAStandar* GAlgorithmStandar=new GAStandar(1,reader->getProblemSize(),BALDWINIAN);
    //GAStandar* GAlgorithmStandar=new GAStandar(1,reader->getProblemSize(),STANDAR);
-   GAlgorithmStandar->execute(reader);
+   GAlgorithmStandar->execute(3,reader);
 
    delete reader;
    delete GAlgorithmStandar;

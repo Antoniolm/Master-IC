@@ -53,7 +53,7 @@ GAStandar::~GAStandar(){
 
 //************************************************//
 
-void GAStandar::execute(Reader * reader){
+void GAStandar::execute(int numGeneration,Reader * reader){
 
   population=new Population(populationSize,geneSize);
   currentSelection=(int*) malloc(populationSize * sizeof(int));
@@ -62,7 +62,7 @@ void GAStandar::execute(Reader * reader){
 
   //cout<< population->toString();
 
-  for(int i=0;i<3;i++){
+  for(int i=0;i<numGeneration;i++){
       //optimizacion local -> no estandar solo los otros dos
       selection();
 
@@ -137,10 +137,6 @@ void GAStandar::crossover(){
     newGeneration->getPopulation()[i+1].crossover(cutOff1,cutOff2,genes2,genes1);
 
   }
-
-  /*if(populationSize%2==1){
-      newGeneration->getPopulation()[populationSize-1]=population->getPopulation()[populationSize-1];
-  }*/
 
   delete population;
   population=newGeneration;
