@@ -249,19 +249,11 @@ void Individual::localSearch(Matrix* flowMatrix,Matrix* distanceMatrix){
 
 void Individual::copy(Individual *individual){
   nGenes=individual->nGenes;
-  
+
   for(int i=0;i<nGenes;i++){
     genes[i]=individual->genes[i];
     enhancedGenes[i]=individual->enhancedGenes[i];
   }
   fitness=individual->fitness;
   enhancedFitness=individual->enhancedFitness;
-}
-
-//************************************************/
-
-void Individual::copyGenes(int* copiedGenes){
-  for(int i=0;i<nGenes;i++)
-    genes[i]=copiedGenes[i];
-
 }
