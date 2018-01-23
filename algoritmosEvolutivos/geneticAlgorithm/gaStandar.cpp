@@ -62,22 +62,22 @@ void GAStandar::execute(Reader * reader){
 
   //cout<< population->toString();
 
-  //for(int i=0;i<3;i++){
+  for(int i=0;i<3;i++){
       //optimizacion local -> no estandar solo los otros dos
 
-      //selection();
+      selection();
 
-      //crossover();
+      crossover();
 
       mutation(); // mutation for each individual
 
-      //population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
-      //cout<< "================================"<<endl;
-      //cout<< "Generation="<< i<<endl;
+      population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
+      cout<< "================================"<<endl;
+      cout<< "Generation="<< i<<endl;
 
-      //cout<< "Fitness="<< population->getFitness()<<endl;
+      cout<< "Fitness="<< population->getFitness()<<endl;
 
-  //}
+  }
 
 }
 
@@ -110,11 +110,11 @@ void GAStandar::mutation(){
 //************************************************//
 
 void GAStandar::crossover(){
-  Population* newGeneration=new Population(1,populationSize);
+  Population* newGeneration=new Population(populationSize,geneSize);
 
   random_device rd;
   mt19937 generator{rd()};
-  uniform_int_distribution<> probCutOff{0, populationSize-1};
+  uniform_int_distribution<> probCutOff{0, geneSize-1};
 
   for(int i=0;i<populationSize/2;i++){
 

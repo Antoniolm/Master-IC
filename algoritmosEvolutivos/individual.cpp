@@ -46,6 +46,10 @@ Individual::Individual(int numGenes){
 //************************************************//
 
 Individual::Individual(Individual *individual){
+  nGenes=individual->nGenes;
+  genes=(int*) malloc(nGenes * sizeof(int));
+  enhancedGenes=(int*) malloc(nGenes * sizeof(int));
+
   copy(individual);
 }
 
@@ -245,9 +249,7 @@ void Individual::localSearch(Matrix* flowMatrix,Matrix* distanceMatrix){
 
 void Individual::copy(Individual *individual){
   nGenes=individual->nGenes;
-  genes=(int*) malloc(nGenes * sizeof(int));
-  enhancedGenes=(int*) malloc(nGenes * sizeof(int));
-
+  
   for(int i=0;i<nGenes;i++){
     genes[i]=individual->genes[i];
     enhancedGenes[i]=individual->enhancedGenes[i];

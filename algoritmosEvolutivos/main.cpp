@@ -31,7 +31,7 @@ int main(void){
    Reader *reader=new Reader("qapdata/tai64c.dat");
    //Reader *reader=new Reader("qapdata/tai256c.dat");
 
-   GAStandar* GAlgorithmStandar=new GAStandar(1,reader->getProblemSize(),LAMARCKIAN);
+   GAStandar* GAlgorithmStandar=new GAStandar(2,reader->getProblemSize(),LAMARCKIAN);
    //GAStandar* GAlgorithmStandar=new GAStandar(1,reader->getProblemSize(),BALDWINIAN);
    //GAStandar* GAlgorithmStandar=new GAStandar(1,reader->getProblemSize(),STANDAR);
    GAlgorithmStandar->execute(reader);
