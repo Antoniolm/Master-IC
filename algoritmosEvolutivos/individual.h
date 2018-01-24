@@ -71,6 +71,16 @@ public:
 
   //////////////////////////////////////////////////////////////////////////
   /**
+   *  It will adjusted the basic fitness of the individual
+   *  \param flowMatrix -> the flow matrix of the problem
+   *  \param distanceMatrix -> the distance matrix of the problem
+   *  \return
+   */
+  //////////////////////////////////////////////////////////////////////////
+  void recalculateBasicFitness(int i, int j, Matrix* flowMatrix,Matrix* distanceMatrix, int* oldGenes);
+
+  //////////////////////////////////////////////////////////////////////////
+  /**
    *  It will calculate the fitness of the individual using the type
    *  of the algorithm
    *  \param flowMatrix -> the flow matrix of the problem

@@ -60,7 +60,7 @@ void GAStandar::execute(int numGeneration,Reader * reader){
 
   population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
 
-  //cout<< population->toString();
+  cout<< population->toString();
 
   for(int i=0;i<numGeneration;i++){
       //optimizacion local -> no estandar solo los otros dos
@@ -72,6 +72,7 @@ void GAStandar::execute(int numGeneration,Reader * reader){
 
       population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
       cout<< "================================"<<endl;
+      cout<< population->toString();
       cout<< "Generation="<< i<<endl;
 
       cout<< "Fitness="<< population->getFitness()<<endl;
@@ -148,7 +149,6 @@ void GAStandar::selection(){
 
     for(int i=0;i<populationSize;i++){
       currentSelection[i]=roulleteSelection();
-      cout<< "   CurrentSelection="<<currentSelection[i]<< " "/*<< population->getPopulation()[currentSelection[i]].toString()*/<<endl;
     }
 }
 
@@ -163,11 +163,10 @@ int GAStandar::roulleteSelection(){
   int minFitness=population->getPopulation()[0].getFitness();
   int maxFitness=population->getPopulation()[0].getFitness();
 
-  //take min fitness and sumFitness
+  //take min fitness, sumFitness and max fitness
   for(int i=0;i<populationSize;i++){
     sumFitness+=population->getPopulation()[i].getFitness();
 
-    cout<< "Fitness["<<i<<"]="<< population->getPopulation()[i].getFitness()<<endl;
     if(minFitness>population->getPopulation()[i].getFitness()){
       minFitness=population->getPopulation()[i].getFitness();
     }
@@ -178,16 +177,11 @@ int GAStandar::roulleteSelection(){
 
   }
 
+  //Invert value -> lower fitness = higher probably
   for(int i=0;i<populationSize;i++){
     fixedFitness[i]=maxFitness-population->getPopulation()[i].getFitness() +minFitness;
     fixedSumFitness+=fixedFitness[i];
   }
-
-  for(int i=0;i<populationSize;i++){
-    fixedFitness[i]=((float)fixedFitness[i])/((float)fixedSumFitness);
-  }
-
-  cout<< "Min-Fitness="<< minFitness<<endl;
 
   mt19937 generator(random_device{}() );
   uniform_real_distribution<> dist(0, 1);
@@ -195,6 +189,7 @@ int GAStandar::roulleteSelection(){
 
 
   for(int i=0;i<populationSize;i++){
+    fixedFitness[i]=((float)fixedFitness[i])/((float)fixedSumFitness);
 
     if(randNumber>=currentFitness && randNumber<=currentFitness+fixedFitness[i]){
       free(fixedFitness);

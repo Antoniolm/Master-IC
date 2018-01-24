@@ -89,11 +89,31 @@ void Individual::init(){
 
 //************************************************//
 
-void  Individual::calculateBasicFitness(Matrix* flowMatrix,Matrix* distanceMatrix){
+void Individual::calculateBasicFitness(Matrix* flowMatrix,Matrix* distanceMatrix){
   fitness=0;
   for (int i=0;i<nGenes;i++) {
       for (int j=0;j<nGenes;j++)
           fitness+=flowMatrix->get(i,j) * distanceMatrix->get(genes[i],genes[j]);
+  }
+}
+
+//************************************************//
+
+void Individual::recalculateBasicFitness(int i,int j,Matrix* flowMatrix,Matrix* distanceMatrix,int * oldGenes){
+  for(int k=0;k<nGenes;k++){
+    if(k!=j && k!=i){
+      fitness-=flowMatrix->get(k,i) * distanceMatrix->get(oldGenes[k],oldGenes[i]);
+      fitness+=flowMatrix->get(k,i) * distanceMatrix->get(genes[k],genes[i]);
+
+      fitness-=flowMatrix->get(k,j) * distanceMatrix->get(oldGenes[k],oldGenes[j]);
+      fitness+=flowMatrix->get(k,j) * distanceMatrix->get(genes[k],genes[j]);
+    }
+
+    fitness-=flowMatrix->get(i,k) * distanceMatrix->get(oldGenes[i],oldGenes[k]);
+    fitness+=flowMatrix->get(i,k) * distanceMatrix->get(genes[i],genes[k]);
+
+    fitness-=flowMatrix->get(j,k) * distanceMatrix->get(oldGenes[j],oldGenes[k]);
+    fitness+=flowMatrix->get(j,k) * distanceMatrix->get(genes[j],genes[k]);
   }
 }
 
@@ -225,13 +245,13 @@ void Individual::localSearch(Matrix* flowMatrix,Matrix* distanceMatrix){
 
             T->getGenes()[i]=S->getGenes()[j];
             T->getGenes()[j]=S->getGenes()[i];
-            T->calculateBasicFitness(flowMatrix,distanceMatrix);
+            T->recalculateBasicFitness(i,j,flowMatrix,distanceMatrix,S->getGenes());
 
             if(T->getFitness() < S->getFitness()){
               S->copy(T);
             }
         }
-        cout<<"Opt->" <<i<<"/"<<nGenes<<endl;
+        //cout<<"Opt->" <<i<<"/"<<nGenes<<endl;
       }
 
   } while(S->getFitness() < best->getFitness());
