@@ -148,7 +148,7 @@ void GAStandar::selection(){
 
     for(int i=0;i<populationSize;i++){
       currentSelection[i]=roulleteSelection();
-      cout<< "   CurrentSelection="<<currentSelection[i]<< " "<< population->getPopulation()[currentSelection[i]].toString()<<endl;
+      cout<< "   CurrentSelection="<<currentSelection[i]<< " "/*<< population->getPopulation()[currentSelection[i]].toString()*/<<endl;
     }
 }
 
@@ -156,23 +156,53 @@ void GAStandar::selection(){
 
 int GAStandar::roulleteSelection(){
   float sumFitness=0;
-  float currentFitness=0;
+  float fixedSumFitness=0;
+  float currentFitness=0.0;
 
-  for(int i=0;i<populationSize;i++)
+  float* fixedFitness=(float*) malloc(populationSize * sizeof(float));
+  int minFitness=population->getPopulation()[0].getFitness();
+  int maxFitness=population->getPopulation()[0].getFitness();
+
+  //take min fitness and sumFitness
+  for(int i=0;i<populationSize;i++){
     sumFitness+=population->getPopulation()[i].getFitness();
 
-
-  mt19937 generator(random_device{}() );
-  uniform_real_distribution<> dist(0, sumFitness);
-  float randNumber=dist(generator);
-
-  for(int i=0;i<populationSize;i++){
-    if(randNumber>=currentFitness && randNumber<=currentFitness+population->getPopulation()[i].getFitness()){
-      cout<< "Pos:"<<i<< " fitness:"<< population->getPopulation()[i].getFitness();
-      return i;
+    cout<< "Fitness["<<i<<"]="<< population->getPopulation()[i].getFitness()<<endl;
+    if(minFitness>population->getPopulation()[i].getFitness()){
+      minFitness=population->getPopulation()[i].getFitness();
     }
-    currentFitness+=population->getPopulation()[i].getFitness();
+
+    if(maxFitness<population->getPopulation()[i].getFitness()){
+      maxFitness=population->getPopulation()[i].getFitness();
+    }
+
   }
 
+  for(int i=0;i<populationSize;i++){
+    fixedFitness[i]=maxFitness-population->getPopulation()[i].getFitness() +minFitness;
+    fixedSumFitness+=fixedFitness[i];
+  }
+
+  for(int i=0;i<populationSize;i++){
+    fixedFitness[i]=((float)fixedFitness[i])/((float)fixedSumFitness);
+  }
+
+  cout<< "Min-Fitness="<< minFitness<<endl;
+
+  mt19937 generator(random_device{}() );
+  uniform_real_distribution<> dist(0, 1);
+  float randNumber=dist(generator);
+
+
+  for(int i=0;i<populationSize;i++){
+
+    if(randNumber>=currentFitness && randNumber<=currentFitness+fixedFitness[i]){
+      free(fixedFitness);
+      return i;
+    }
+    currentFitness+=fixedFitness[i];
+  }
+
+  free(fixedFitness);
   return -1;
 }
