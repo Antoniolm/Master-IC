@@ -28,9 +28,9 @@ int main(void){
 
    //Reader *reader=new Reader("qapdata/chr12a.dat");
    //Reader *reader=new Reader("qapdata/bur26a.dat");
-   //Reader *reader=new Reader("qapdata/tai64c.dat");
+   Reader *reader=new Reader("qapdata/tai64c.dat");
    //Reader *reader=new Reader("qapdata/tai100b.dat");
-   Reader *reader=new Reader("qapdata/tai256c.dat");
+   //Reader *reader=new Reader("qapdata/tai256c.dat");
 
    //GAStandar* GAlgorithmStandar=new GAStandar(2,reader->getProblemSize(),LAMARCKIAN);
    //GAStandar* GAlgorithmStandar=new GAStandar(2,reader->getProblemSize(),BALDWINIAN);

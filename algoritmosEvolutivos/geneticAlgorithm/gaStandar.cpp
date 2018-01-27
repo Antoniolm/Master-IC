@@ -80,6 +80,7 @@ void GAStandar::execute(int numGeneration,Reader * reader){
       //cout<< population->toString();
       cout<< "Generation="<< i<<endl;
 
+      population->printGenesSolution();
       cout<< "Fitness="<< population->getFitness()<<endl;
       cout<<"Time: "<< (float)(clock() - startGeneration)/CLOCKS_PER_SEC<<" seconds"<<endl;
   }

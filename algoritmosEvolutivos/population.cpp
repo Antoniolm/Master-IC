@@ -76,6 +76,21 @@ void Population::calculateFitness(Matrix* flowMatrix,Matrix* distanceMatrix,GATy
 
 //************************************************//
 
+void Population::printGenesSolution(){
+  int minFitness=population[0].getEnhancedFitness();
+  int indexSolution=0;
+
+  for(int i=1;i<size; i++){
+    if(population[i].getFitness()<minFitness){
+      minFitness=population[i].getEnhancedFitness();
+      indexSolution=i;
+    }
+  }
+  cout<<"Best Genes:" << population[indexSolution].toString()<<endl;
+}
+
+//************************************************//
+
 int Population::getFitness(){
   return fitness;
 }
