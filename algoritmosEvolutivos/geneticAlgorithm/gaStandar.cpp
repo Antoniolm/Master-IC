@@ -23,6 +23,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
+#include <time.h>
 #include "../individual.h"
 #include "../population.h"
 
@@ -54,16 +55,20 @@ GAStandar::~GAStandar(){
 //************************************************//
 
 void GAStandar::execute(int numGeneration,Reader * reader){
+  clock_t start,startGeneration;
+  start=clock();
 
   population=new Population(populationSize,geneSize);
   currentSelection=(int*) malloc(populationSize * sizeof(int));
 
   population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
 
-  cout<< population->toString();
+  //cout<< population->toString();
 
   for(int i=0;i<numGeneration;i++){
       //optimizacion local -> no estandar solo los otros dos
+      startGeneration=clock();
+
       selection();
 
       crossover();
@@ -72,12 +77,13 @@ void GAStandar::execute(int numGeneration,Reader * reader){
 
       population->calculateFitness(reader->getFlowMatrix(),reader->getDistanceMatrix(),type);
       cout<< "================================"<<endl;
-      cout<< population->toString();
+      //cout<< population->toString();
       cout<< "Generation="<< i<<endl;
 
       cout<< "Fitness="<< population->getFitness()<<endl;
-
+      cout<<"Time: "<< (float)(clock() - startGeneration)/CLOCKS_PER_SEC<<" seconds"<<endl;
   }
+  cout<<"Total time: "<< (float)(clock() - start)/CLOCKS_PER_SEC<<" seconds"<<endl;
 
 }
 
@@ -86,15 +92,16 @@ void GAStandar::execute(int numGeneration,Reader * reader){
 void GAStandar::mutation(){
   Individual* individual = population->getPopulation();
   int secondIndex;
+  float currentProb=5.0/(float)geneSize;
 
   random_device rd;
   mt19937 generator{rd()};
-  uniform_int_distribution<> probMutation{0, 99};
+  uniform_real_distribution<> probMutation{0, 99};
   uniform_int_distribution<> probGene{0, geneSize-1};
 
   for(int j=0;j<populationSize;j++){
       for(int i=0;i<geneSize;i++){
-        if (probMutation(generator)< 5) {
+        if (probMutation(generator)< currentProb) {
 
           do{
             secondIndex=probGene(generator);
